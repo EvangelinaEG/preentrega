@@ -1,8 +1,8 @@
-import { cartsModel } from "../models/carts.model";
+import cartsModel from "../models/carts.model.js";
 
-export class CartsManagerMongo{
+export default class CartManagerMongo{
     constructor(){
-        this.cartModel = cartModel;
+        this.cartModel = cartsModel;
     }
 
     async createProductCart(cid, pid){

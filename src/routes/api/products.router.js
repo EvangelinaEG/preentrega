@@ -16,16 +16,13 @@ productsRouter.post('/products', async (req, res) => {
     res.send({status: 'success', data: result})
 })
 
-
-
-productsRouter.get('products/:pid', async (req, res) => {
+productsRouter.get('/products/:pid', async (req, res) => {
     const { pid } = req.params
-    console.log(req)
-    const productFound = await productsManager.getProductById({_id: pid})
+    const productFound = await productsManager.getProductById(pid)
     res.send({status: 'success', payload: productFound})
 })
 
-productsRouter.put('products/:pid', async (req, res) => {
+productsRouter.put('/products/:pid', async (req, res) => {
     const { body } = req
     const result = await productsManager.updateProduct({ body });
     res.send({status: 'success', data: result})

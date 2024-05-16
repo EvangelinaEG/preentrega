@@ -10,7 +10,6 @@ export default class ProductsManagerMongo{
     }
 
     async getProductById(id){
-        console.log(id)
         return await this.productsModel.findById({ _id: id })
     }
 
@@ -20,5 +19,11 @@ export default class ProductsManagerMongo{
 
     async getProducts(){
         return await this.productsModel.find()
+    }
+
+    
+    async  getProducts({limit = 10, numPage=1}) {
+        const products =  await this.productsModel.paginate({}, {limit, page: numPage, sort: {price: -1}, lean: true })
+        return products
     }
 }

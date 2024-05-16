@@ -41,7 +41,7 @@
             <button class="btn btn-primary" type="submit">Agregar producto</button>
         </form>
         <div id="productos">
-             {{#if contproducts}}
+             
                 <h2 class="text-center p-5">Listado de productos</h2>
                 <div class="d-flex justify-content-between">
                     {{#each products}}
@@ -61,9 +61,16 @@
                             </div>
                     {{/each}}
                 </div>
-            {{else}}
-                <h2 class="text-center p-5">No hay productos para mostrar.</h2>
-            {{/if}}
+                <div class="container">
+                        {{#if hasPrevPage}}
+                            <a href="/products?numPage={{prevPage}}">Anterior</a>
+                        {{/if}}
+                        <label>{{page}}</label>
+                        {{#if hasNextPage}}
+                            <a href="/products?numPage={{nextPage}}">Siguente</a>
+                        {{/if}}
+                </div>
+           
         </div>
     </div>
 </main>
