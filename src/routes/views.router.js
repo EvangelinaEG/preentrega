@@ -25,6 +25,34 @@ viewsrouter.get('/products', async (req, res) => {
     })
 })
 
+viewsrouter.post('/products', async (req, res) => {
+    const productSocket = req.productSocket
+    const  socketServer  = req.socketServer 
+    const products = []
+    let rta = ''
+     socketServer.on('connection', socket => {
+        console.log('Cliente conectado post')
+    
+        socket.on('product', async data => {
+            console.log('message data post: ', data)
+            console.log('message data post: ', data.title)
+            // guardamos los mensajes
+            const productService = new ProductsManagerMongo()
+            rta = await productService.createProduct(data)
+            console.log('rta', rta)
+            
+           products.push(data)
+            // emitimos los mensajes
+            socketServer.emit('messageLogs', products)
+        })
+    })
+   console.log(products)
+
+    res.render('products', {
+        rta
+    })
+})
+
 viewsrouter.get('/chat', (req, res) => {
     const { socketServer } = req
 

@@ -36,6 +36,7 @@ form.addEventListener("submit", (event) =>{
         })
         
     }else{
+       
         socket.emit("product", {
             'title': title,
             'description': description,
@@ -51,7 +52,7 @@ form.addEventListener("submit", (event) =>{
 
 form.reset()
 
-socket.on("message_server", data =>{
+socket.on("messageLogs", data =>{
     console.log(data)
     if(data.length !== 0){
         Swal.fire({

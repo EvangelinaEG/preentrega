@@ -6,6 +6,7 @@ export default class ProductsManagerMongo{
     }
 
     async createProduct(product){
+        console.log(product)
         return await this.productsModel.create(product)
     }
 

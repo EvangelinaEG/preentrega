@@ -1,17 +1,33 @@
-import { Router } from 'express';
-//import  ProductsManagerFS  from '../../daos/productsMongo.manager.js';
-import  ProductsManagerMongo  from '../../daos/productsMongo.manager.js';
+import { Router } from 'express'
+//import  ProductsManagerFS  from '../../daos/productsMongo.manager.js'
+import  ProductsManagerMongo  from '../../daos/productsMongo.manager.js'
 
-const productsManager = new ProductsManagerMongo();
+
+const productsManager = new ProductsManagerMongo()
 const productsRouter = Router()
 
+
 productsRouter.get('/products', async(req, res) => {
-    const products = await productsManager.getProducts();
+    const products = await productsManager.getProducts()
     res.send({status: 'success', products})
 })
 
 productsRouter.post('/products', async (req, res) => {
-    const { body } = req
+    const  socketServer  = req.socketServer 
+    const messages = []
+    alert("entramos")
+    socketServer.on('connection', socket => {
+        alert('Cliente conectado post')
+    
+        socket.on('product', data => {
+            console.log('message data post: ', data)
+            alert('message data post: ', data.title)
+            // guardamos los mensajes
+           messages.push(data)
+            // emitimos los mensajes
+            socketServer.emit('messageLogs', messages)
+        })
+    })
     const result = await productsManager.createProduct(body)
     res.send({status: 'success', data: result})
 })

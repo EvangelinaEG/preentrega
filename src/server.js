@@ -61,7 +61,7 @@ let messages = [] // simular un db mock
 io.on('connection', socket => {
     console.log('Cliente conectado')
 
-    socket.on('message', data => {
+    socket.on('product', data => {
         console.log('message data: ', data)
         // guardamos los mensajes
         messages.push(data)
