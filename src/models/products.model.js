@@ -9,10 +9,10 @@ const productSchema = new Schema({
         index: true
     },
     description: String,
-    price: Number,
+    price: String,
     thumbnails: Array,
     code: String,
-    stock: Number,
+    stock: String,
     status: Boolean,
     category: {
         type: String     

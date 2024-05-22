@@ -5,51 +5,76 @@ import ProductsManagerMongo from '../daos/productsMongo.manager.js';
 const viewsrouter = Router()
 
 viewsrouter.get('/', async (req, res) => {
-    res.render('index',{  })
+    res.render('index')
 })
  
 viewsrouter.get('/products', async (req, res) => {
-    const {numPage, limit} = req.query
-   
+    const {limit, numPage, order, filter } = req.query
     const productService = new ProductsManagerMongo()
-    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage })
-     
-
-    res.render('products', {
+    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
+     res.render('products', {
         products: docs,
         page, 
         hasNextPage,
         hasPrevPage,
         nextPage,
-        prevPage
+        prevPage,
+        limit,
+        contproducts: docs.length > 0,
+        order: order == null? -1 : order,
+        filter: filter == null? null : filter,
     })
+
 })
 
+
 viewsrouter.post('/products', async (req, res) => {
+   
     const productSocket = req.productSocket
     const  socketServer  = req.socketServer 
     const products = []
     let rta = ''
-     socketServer.on('connection', socket => {
-        console.log('Cliente conectado post')
+    const productService = new ProductsManagerMongo()
+    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts(4,1, -1, null)
+    socketServer.on('connection', socket => {
     
         socket.on('product', async data => {
-            console.log('message data post: ', data)
-            console.log('message data post: ', data.title)
             // guardamos los mensajes
-            const productService = new ProductsManagerMongo()
-            rta = await productService.createProduct(data)
-            console.log('rta', rta)
+            if(data.title === '' || data.description === '' || data.price === '' || data.code === '' || data.stock === '' || data.status === '' || data.category === ''){
+                rta = {"status" : "error", "msg":'Todos los campos son obligatorios, corrobore'}
+         
+            }
             
-           products.push(data)
+            const productFound = await docs.findIndex(pro => pro.code === data.code)
+           
+            if( productFound !== -1 ) {
+                rta  = {"status" : "error", "msg":'El producto ya existe'}
+               
+            }
+           if(rta === ''){
+            rta = await productService.createProduct(data)
+           }
+            
+           
+            //products.push(data)
             // emitimos los mensajes
-            socketServer.emit('messageLogs', products)
+            if(rta._id){
+                rta  = {"status" : "success", "msg":'Producto agregado con exito'}
+            }
+            
+            socketServer.emit('messageLogs', rta )
         })
     })
-   console.log(products)
-
+   
     res.render('products', {
-        rta
+            products: docs,
+            countproducts: docs.length,
+            page, 
+            hasNextPage,
+            hasPrevPage,
+            nextPage,
+            prevPage,
+            rta
     })
 })
 
@@ -74,7 +99,7 @@ viewsrouter.get('/chat', (req, res) => {
         // enviar mensajes viejos
     
         socket.on('mensaje_cliente', data => {
-            console.log(data)
+         
     
             messages.push({id: socket.id, messge: data})
             

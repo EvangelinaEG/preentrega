@@ -2,10 +2,33 @@ const socket = io()
 const form = document.getElementById("producto")
 
 const productsList = document.getElementById('productos')
+
+$("#order").change(function(){
+    const order =  $(this).val()
+    const filter = $("#filter").val()
+    
+    if( filter == null){
+        location.href = '/products?limit=4&numPage=1&order='+order
+    }else{
+        location.href = '/products?limit=4&numPage=1&order='+order+"&filter="+filter
+    }
+})
+
+$("#filter").change(function(){
+    const filter = $(this).val()
+    const order = $("#order").val()
+    if(order == null){
+        location.href = '/products?limit=4&numPage=1&filter='+filter
+    }else{
+        location.href = '/products?limit=4&numPage=1&filter='+filter+"&order="+order
+    }
+})
+
+
+
 //const datos = '';
 form.addEventListener("submit", (event) =>{
-   
-    const files = document.getElementById("thumbnail").files.length;
+    const files = document.getElementById("thumbnail").files.length
     const title = document.getElementById("title").value
     const description = document.getElementById("description").value
     const price = document.getElementById("price").value
@@ -13,13 +36,13 @@ form.addEventListener("submit", (event) =>{
     const stock = document.getElementById("stock").value
     const code = document.getElementById("code").value
     const category = document.getElementById("category").value
-
+ 
     if(files){
         const thumbnails = []
      for (let i = 0; i < files; i++) {
         let url = '/uploads/'+document.getElementById('thumbnail').files[i].name
         thumbnails.push(url)
-    } 
+    }    
     }
     const thumbs = files? JSON.stringify(thumbnails) : []
     
@@ -36,7 +59,7 @@ form.addEventListener("submit", (event) =>{
         })
         
     }else{
-       
+     
         socket.emit("product", {
             'title': title,
             'description': description,
@@ -53,12 +76,16 @@ form.addEventListener("submit", (event) =>{
 form.reset()
 
 socket.on("messageLogs", data =>{
-    console.log(data)
-    if(data.length !== 0){
-        Swal.fire({
+    
+     if(data.length !== 0){
+    
+            Swal.fire({
             title: 'Atencion',
-            text: data[0].message,
-        })
-    }
+            text: data.msg,
+            }) 
+            location.reload()
+         
+    } 
+    
 })
  

@@ -46,8 +46,21 @@
             </div>
         </form>
         <div id="productos">
-             
+             {{#if contproducts}}
                 <h2 class="text-center p-5">Listado de productos</h2>
+                <div class="d-flex justify-content-between">
+                    <select class="form-select" name="order" id="order" aria-label="Default select example">
+                        <option selected disabled>Ordenar por precio</option>
+                        <option value="-1"> Descendente</option>
+                        <option value="1">Ascendente</option>
+                    </select>
+                    <select class="form-select" name="filter" id="filter" aria-label="Default select example">
+                        <option selected disabled>categorias</option>
+                        <option value="Category 1">Category 1</option>
+                        <option value="Category 2">Category 2</option>
+                        <option value="Category">Category</option>
+                    </select>
+                </div>
                 <div class="d-flex justify-content-between">
                     {{#each products}}
                         <div class="card d-flex p-2 m-3 " style="width: 18rem;">
@@ -61,23 +74,28 @@
                                     <li class="list-group-item"><b>Stock: </b>{{ this.stock }}</li>
                                     <li class="list-group-item"><b>Estado: </b>{{ this.status }}</li>
                                     <li class="list-group-item"><b>Precio: </b>${{ this.price }}</li>
-                                    <li class="list-group-item"><b>Categoria: </b>${{ this.category }}</li>
+                                    <li class="list-group-item"><b>Categoria: </b>{{ this.category }}</li>
                                 </ul>
                             </div>
                     {{/each}}
                 </div>
+                 
                 <div class="container">
                         {{#if hasPrevPage}}
-                            <a href="/products?numPage={{prevPage}}">Anterior</a>
+                            <a href="/products?limit={{limit}}&numPage={{prevPage}}&oder={{order}}&filter={{filter}}">Anterior</a>
                         {{/if}}
                         <label>{{page}}</label>
                         {{#if hasNextPage}}
-                            <a href="/products?numPage={{nextPage}}">Siguente</a>
+                            <a href="/products?limit={{limit}}&numPage={{nextPage}}&order={{order}}&filter={{filter}}">Siguente</a>
                         {{/if}}
                 </div>
-           
+             {{else}}
+                <h2 class="text-center p-5">No hay productos para mostrar.</h2>
+                {{/if}}
         </div>
     </div>
 </main>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/products.js"></script>
+

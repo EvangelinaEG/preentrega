@@ -15,18 +15,9 @@ productsRouter.get('/products', async(req, res) => {
 productsRouter.post('/products', async (req, res) => {
     const  socketServer  = req.socketServer 
     const messages = []
-    alert("entramos")
     socketServer.on('connection', socket => {
         alert('Cliente conectado post')
     
-        socket.on('product', data => {
-            console.log('message data post: ', data)
-            alert('message data post: ', data.title)
-            // guardamos los mensajes
-           messages.push(data)
-            // emitimos los mensajes
-            socketServer.emit('messageLogs', messages)
-        })
     })
     const result = await productsManager.createProduct(body)
     res.send({status: 'success', data: result})
