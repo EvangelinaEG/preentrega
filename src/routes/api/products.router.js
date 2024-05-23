@@ -1,7 +1,7 @@
 import { Router } from 'express'
 //import  ProductsManagerFS  from '../../daos/productsMongo.manager.js'
 import  ProductsManagerMongo  from '../../daos/productsMongo.manager.js'
-
+import { cookie } from '../../middlewares/auth.middleware.js'
 
 const productsManager = new ProductsManagerMongo()
 const productsRouter = Router()

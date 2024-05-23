@@ -2,25 +2,51 @@ const socket = io()
 const form = document.getElementById("producto")
 
 const productsList = document.getElementById('productos')
-
-$("#order").change(function(){
-    const order =  $(this).val()
-    const filter = $("#filter").val()
+$(document).ready(function() {
     
-    if( filter == null){
-        location.href = '/products?limit=4&numPage=1&order='+order
-    }else{
-        location.href = '/products?limit=4&numPage=1&order='+order+"&filter="+filter
-    }
+     let cart = fetch('/carts', {method:"POST"})
+    .then((response) =>  console.log("la rta es"+response)  )
+    .catch((error) => console.log(error))
+  
+    
+
+    $("#filter").change(function(){
+        $("#order").css("display", "block")
+    /*   const order =  $(this).val()
+        const filter = $("#filter").val()
+        
+        if( filter == null){
+            location.href = '/products?limit=4&numPage=1&order='+order
+        }else{
+            location.href = '/products?limit=4&numPage=1&order='+order+"&filter="+filter
+        } */
+    }) 
+
+$(".addCart").on("click", function(){
+
+    const pid = $(this).attr("id");
+
+    Swal.fire({
+        title: 'Atencion',
+        text: "El producto fue Agregado al carrito",
+    }) 
+    
 })
 
-$("#filter").change(function(){
-    const filter = $(this).val()
+$("#filters").on("click", function(){
+    const filter = $("#filter").val()
     const order = $("#order").val()
-    if(order == null){
-        location.href = '/products?limit=4&numPage=1&filter='+filter
+    if(filter === null){
+        Swal.fire({
+            title: 'Atencion',
+            text: "Debe seleccionar un filtro",
+            }) 
     }else{
-        location.href = '/products?limit=4&numPage=1&filter='+filter+"&order="+order
+        if(order == null){
+            location.href = '/products?limit=4&numPage=1&filter='+filter
+        }else{
+            location.href = '/products?limit=4&numPage=1&filter='+filter+"&order="+order
+        }
     }
 })
 
@@ -89,3 +115,4 @@ socket.on("messageLogs", data =>{
     
 })
  
+})

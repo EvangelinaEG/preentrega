@@ -1,12 +1,38 @@
 import { Router } from 'express';
 import ProductsManagerMongo from '../daos/productsMongo.manager.js';
-
+import CartManagerMongo from '../daos/cartsMongo.manager.js'
 
 const viewsrouter = Router()
+
 
 viewsrouter.get('/', async (req, res) => {
     res.render('index')
 })
+viewsrouter.post('/carts', async (req, res)=>{
+    const cartService = new CartManagerMongo()
+    const carts = await cartService.getCarts()
+    let cart = {}
+    if(carts.length === 0){
+        cart = await cartService.createCart()
+    }
+    res.send(cart)
+})
+
+viewsrouter.get('/carts', async (req, res)=>{
+    const cartService = new CartManagerMongo()
+    const cart = await cartService.getCarts()
+    console.log(cart)
+    res.send(cart)
+})
+
+viewsrouter.post('/:cid/products/:pid', async (req, res)=>{
+    const cartService = new CartManagerMongo()
+    const {cid, pid} = req.params
+
+    const result = await cartService.addProduct(cid, pid)
+    res.send(result)
+})
+
  
 viewsrouter.get('/products', async (req, res) => {
     const {limit, numPage, order, filter } = req.query
@@ -42,7 +68,6 @@ viewsrouter.post('/products', async (req, res) => {
             // guardamos los mensajes
             if(data.title === '' || data.description === '' || data.price === '' || data.code === '' || data.stock === '' || data.status === '' || data.category === ''){
                 rta = {"status" : "error", "msg":'Todos los campos son obligatorios, corrobore'}
-         
             }
             
             const productFound = await docs.findIndex(pro => pro.code === data.code)

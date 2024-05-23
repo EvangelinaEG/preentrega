@@ -12,10 +12,14 @@ const productSchema = new Schema({
     price: String,
     thumbnails: Array,
     code: String,
-    stock: String,
+    stock: {
+        type: String,
+        index: true
+    },
     status: Boolean,
     category: {
-        type: String     
+        type: String,
+        index: true   
     }
 })
 productSchema.plugin(mongoosePaginate)

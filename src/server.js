@@ -10,8 +10,8 @@ import productsSocket from './utils/productsSocket.js'
 // socket io
 import { Server as ServerIO } from 'socket.io'
 import { Server as ServerHttp } from 'http'
-
 import connectDb from './config/index.js'
+import cookieParser from 'cookie-parser'
 
 const app = express()
 const httpServer = new ServerHttp(app)
@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 8080
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname+'/public'))
-
+app.use(cookieParser('S3CR3T@'))
 connectDb()
 
 // express usa este motor de plantillas

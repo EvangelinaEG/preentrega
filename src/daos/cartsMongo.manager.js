@@ -1,30 +1,38 @@
-import cartsModel from "../models/carts.model.js";
+import cartsModel from "./../models/carts.model.js"
 
-export default class CartManagerMongo{
+class CartManagerMongo {
     constructor(){
-        this.cartModel = cartsModel;
+        this.model = cartsModel
     }
 
-    async createProductCart(cid, pid){
-        const cart = await cartsModel.findById({ _id : id })
-        const index = cart.products.findIndex(products => pid === products.product)
-        if(index === -1){
-            cart.products[index].quantity++;
-        }else{
-            this.producs.create(product);
-        }
-        return await this.cartModel.create(cart);
+    getCarts = async () => await this.model.find()
+    getCart = async (cid) => {
+        const cart = await this.model.findOne({_id : id})
+        return cart
     }
-
-    async getCartById(id){
-        return await this.cartModel.find({ _id : id}); 
+    createCart = async () => {
+        const cart = await this.model.create({products: []})
+        return cart 
     }
-
-    async getCartByName(name){
-        return await this.cartModel.find((cart) => cart.name === name);
+    addProduct = async (cid, pid) => {
+        const cart = await this.model.findOne({_id: cid})
+        // cart.products array -> {prduct: 'kajshfkhsfd', quantity: 5}
+       
+        cart.products.push({ product: pid })
+        const resp = await cartsModel.findByIdAndUpdate({_id: cid}, cart)
+        return resp
     }
+    deleteProduct = async (cid, pid) => {
+        const cart = await this.model.findOne({_id: cid})
+        // cart.products array -> {prduct: 'kajshfkhsfd', quantity: 5}
+        
+        
 
-    async getCarts(){
-        return await this.cartsModel;
+        const index = cart.products.findIndex(product => product.id !== parseInt(pid))
+        cart.products.splice(index, 1)
+        
+        const resp = await cartsModel.findByIdAndUpdate({_id: cid}, cart)
     }
 }
+
+export default CartManagerMongo
