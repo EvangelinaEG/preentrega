@@ -23,8 +23,9 @@ $(document).ready(function() {
     }) 
 
 $(".addCart").on("click", function(){
-    
+    $(this).attr('disabled')
     const pid = $(this).attr("id");
+   
     socket.emit("cart", {
         'pid': pid,
     })
@@ -121,8 +122,7 @@ socket.on("messageCart", data =>{
            title: 'Atencion',
            text: data.msg,
            }) 
-           location.reload()
-        
+           $(".addCart").removeAttr('disabled')
    } 
    
 })

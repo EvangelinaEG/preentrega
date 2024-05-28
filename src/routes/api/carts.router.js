@@ -9,17 +9,15 @@ const cartService = new CartManagerMongo()
 
 router.get('/carts', async (req, res)=>{
     const carts = await cartService.getCarts()
-    console.log("entro al get")
     res.send(carts)
 })
 router.post('/carts', async (req, res)=>{
     const carts = await cartService.getCarts()
-    console.log("entro al post")
     let cart = {}
     if(carts.length === 0){
         cart = await cartService.createCart()
     }
-    res.send(cart)
+    res.send(carts)
 })
 
 router.get('/cart', async (req, res)=>{

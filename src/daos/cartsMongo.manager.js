@@ -5,21 +5,27 @@ class CartManagerMongo {
         this.model = cartsModel
     }
 
-    getCarts = async () => await this.model.findOne()
+    getCarts = async () => await this.model.find().lean()
     getCart = async (cid) => {
         const cart = await this.model.findOne({_id : id})
         return cart
     }
     createCart = async () => {
         const cart = await this.model.create({products: []})
-        return cart 
+        return cart._id 
     }
     addProduct = async (cid, pid) => {
         const cart = await this.model.findOne({_id: cid})
         // cart.products array -> {prduct: 'kajshfkhsfd', quantity: 5}
-       
-        cart.products.push({ product: pid })
-        const resp = await cartsModel.findByIdAndUpdate({_id: cid}, cart)
+        const index = cart.products.findIndex(pro => pro.product.toString() === pid)
+        
+         if(index === -1){
+            cart.products.push({ product: pid, quantity: 1 })   
+        }else{
+            cart.products[index].quantity += 1
+        }
+        
+        const resp = await cartsModel.findByIdAndUpdate({_id: cid}, cart) 
         return resp
     }
     deleteProduct = async (cid, pid) => {

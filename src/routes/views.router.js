@@ -27,23 +27,29 @@ viewsrouter.post('/carts', async (req, res)=>{
                   
             const cartService = new CartManagerMongo()
             const cartFound = await cartService.getCarts()
-            
+          
            let cart = ''
-            if( cartFound !== -1 ) {
-               cart = cartFound;
+            if( cartFound === null ) {
+                cart = await cartService.createCart()
+             
             }else{
-                 cart = await cartService.createCart()
-                console.log(cart)
+                cart = cartFound._id;
+               
             }
+
+            console.log(cart)
                      
-            const product = await cartService.addProduct(cart._id, data.pid)
-            console.log(product)
+            const product = await cartService.addProduct(cart, data.pid)
+         
             //products.push(data)
             // emitimos los mensajes
-            if(product){
-                const rta  = {"status" : "success", "msg": "producto agregado con exito"}
+            let rta = ''
+            if(Object.values(product).length > 0){
+                rta  = {"status" : "success", "msg": "producto agregado con exito"}
+            }else{
+                rta  = {"status" : "success", "msg": "No se pudo agregar el producto"}
             }
-            
+            console.log(rta)
             socketServer.emit('messageLogs', rta)
         })
     })
@@ -57,11 +63,29 @@ viewsrouter.post('/carts', async (req, res)=>{
 })
 
 viewsrouter.get('/carts', async (req, res)=>{
-    console.log("entreo en el view de get")
+   /*  console.log("entreo en el view de get")
     const cartService = new CartManagerMongo()
     const cart = await cartService.getCarts()
     console.log(cart)
-    res.send(cart)
+    res.send(cart) */
+
+    const cartService = new CartManagerMongo()
+
+    const docs  = await cartService.getCarts()
+    let sum = 0
+    let t = 0
+    sum = Object.values(docs[0].products).forEach(pro => sum + parseFloat(pro.price))
+    t = Object.values(docs[0]).forEach(pro => t + parseInt(pro.quantity))
+    console.log(sum)
+    console.log(t)
+     res.render('cart', {
+        cart: docs[0],
+        products: Object.values(docs[0].products),
+        countCart: Object.values(docs[0]).length,
+        countT: t,
+        sumT: sum,
+        user: req.session.user? req.session.user : false
+    })
    
 })
 
@@ -79,6 +103,7 @@ viewsrouter.get('/products', async (req, res) => {
     const productService = new ProductsManagerMongo()
 
     const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
+  
      res.render('products', {
         products: docs,
         page, 
@@ -121,10 +146,7 @@ viewsrouter.post('/products', async (req, res) => {
            if(rta === ''){
             rta = await productService.createProduct(data)
            }
-            
-           
-            //products.push(data)
-            // emitimos los mensajes
+ 
             if(rta._id){
                 rta  = {"status" : "success", "msg":'Producto agregado con exito'}
             }

@@ -1,0 +1,27 @@
+<main class="container">
+    <h2>Carrito</h2>
+    <h3>Cantidad de productos en el carrito {{countCart}}</h3>
+     {{#if countCart}}
+        <table className="table table-dark table-striped">
+            <thead>
+               <th scope="col" >Producto</th>
+               <th scope="col" >Precio</th>
+               <th scope="col" >Cantidad</th>
+            </thead>
+            <tbody>
+               {{#each products}}
+               <tr>
+                  <td>{{ this.product.title }}</td>
+                  <td>{{ this.product.price }}</td>
+                  <td>{{ this.quantity }}</td>
+                  </tr>
+               {{/each}}
+               <tr>
+                  <td></td>
+                  <td>{{ counT }}</td>
+                  <td>{{ sumT }}</td>
+               </tr>
+            </tbody>
+          </table>
+     {{/if}}
+</main>
