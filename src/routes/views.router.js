@@ -1,28 +1,68 @@
 import { Router } from 'express';
 import ProductsManagerMongo from '../daos/productsMongo.manager.js';
 import CartManagerMongo from '../daos/cartsMongo.manager.js'
+import { UsersManagerMongo } from '../daos/usersManagerMongo.js'
 
 const viewsrouter = Router()
 
+viewsrouter.get('/login', (req, res) => {
+    res.render('login')
+})
+
+viewsrouter.get('/register', (req, res) => {
+    res.render('register')
+})
 
 viewsrouter.get('/', async (req, res) => {
     res.render('index')
 })
 viewsrouter.post('/carts', async (req, res)=>{
-    const cartService = new CartManagerMongo()
+       
+    const  socketServer  = req.socketServer 
+    
+    socketServer.on('connection', socket => {
+    
+        socket.on('cart', async data => {
+            // guardamos los mensajes
+                  
+            const cartService = new CartManagerMongo()
+            const cartFound = await cartService.getCarts()
+            
+           let cart = ''
+            if( cartFound !== -1 ) {
+               cart = cartFound;
+            }else{
+                 cart = await cartService.createCart()
+                console.log(cart)
+            }
+                     
+            const product = await cartService.addProduct(cart._id, data.pid)
+            console.log(product)
+            //products.push(data)
+            // emitimos los mensajes
+            if(product){
+                const rta  = {"status" : "success", "msg": "producto agregado con exito"}
+            }
+            
+            socketServer.emit('messageLogs', rta)
+        })
+    })
+    /* const cartService = new CartManagerMongo()
     const carts = await cartService.getCarts()
     let cart = {}
     if(carts.length === 0){
         cart = await cartService.createCart()
     }
-    res.send(cart)
+    res.send(cart) */
 })
 
 viewsrouter.get('/carts', async (req, res)=>{
+    console.log("entreo en el view de get")
     const cartService = new CartManagerMongo()
     const cart = await cartService.getCarts()
     console.log(cart)
     res.send(cart)
+   
 })
 
 viewsrouter.post('/:cid/products/:pid', async (req, res)=>{
@@ -37,6 +77,7 @@ viewsrouter.post('/:cid/products/:pid', async (req, res)=>{
 viewsrouter.get('/products', async (req, res) => {
     const {limit, numPage, order, filter } = req.query
     const productService = new ProductsManagerMongo()
+
     const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
      res.render('products', {
         products: docs,
@@ -49,6 +90,7 @@ viewsrouter.get('/products', async (req, res) => {
         contproducts: docs.length > 0,
         order: order == null? -1 : order,
         filter: filter == null? null : filter,
+        user: req.session.user? req.session.user : false
     })
 
 })
@@ -100,6 +142,23 @@ viewsrouter.post('/products', async (req, res) => {
             nextPage,
             prevPage,
             rta
+    })
+})
+
+viewsrouter.get('/users', async (req, res) => {
+    const {numPage, limit} = req.query
+   
+    const userService = new UsersManagerMongo()
+    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await userService.getUsers({limit, numPage })
+    // console.log(resp)
+
+    res.render('users', {
+        users: docs,
+        page, 
+        hasNextPage,
+        hasPrevPage,
+        nextPage,
+        prevPage
     })
 })
 

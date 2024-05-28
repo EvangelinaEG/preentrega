@@ -23,13 +23,11 @@ $(document).ready(function() {
     }) 
 
 $(".addCart").on("click", function(){
-
+    
     const pid = $(this).attr("id");
-
-    Swal.fire({
-        title: 'Atencion',
-        text: "El producto fue Agregado al carrito",
-    }) 
+    socket.emit("cart", {
+        'pid': pid,
+    })
     
 })
 
@@ -102,7 +100,7 @@ form.addEventListener("submit", (event) =>{
 form.reset()
 
 socket.on("messageLogs", data =>{
-    
+    console.log(data)
      if(data.length !== 0){
     
             Swal.fire({
@@ -113,6 +111,20 @@ socket.on("messageLogs", data =>{
          
     } 
     
+})
+
+socket.on("messageCart", data =>{
+    
+    if(data.length !== 0){
+   
+           Swal.fire({
+           title: 'Atencion',
+           text: data.msg,
+           }) 
+           location.reload()
+        
+   } 
+   
 })
  
 })

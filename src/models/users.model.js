@@ -1,17 +1,28 @@
-const { Schema, model } = require('mongoose')
+import { Schema, model }  from "mongoose"
+import mongoosePaginate from 'mongoose-paginate-v2'
 
-const usersSchema = new Schema({
-    first_name: String,
+const userCollection = 'users'
+
+const userSchema = new Schema({
+    first_name: {
+        type: String,
+        index: true
+    },
     last_name: String,
     email: {
         type: String,
-        unique: true, 
-        required: true
-    }
+        required: true, 
+        unique: true
+    },
+    password: String,
+    role:{
+        type: String,
+        default: 'user'
+    } 
 })
+// odm 
 
-const usersModel = model('users', usersSchema)
+userSchema.plugin(mongoosePaginate)
 
-module.exports = {
-    usersModel
-}
+const userModel = model(userCollection, userSchema)
+export default userModel

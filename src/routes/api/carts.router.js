@@ -9,10 +9,12 @@ const cartService = new CartManagerMongo()
 
 router.get('/carts', async (req, res)=>{
     const carts = await cartService.getCarts()
+    console.log("entro al get")
     res.send(carts)
 })
 router.post('/carts', async (req, res)=>{
     const carts = await cartService.getCarts()
+    console.log("entro al post")
     let cart = {}
     if(carts.length === 0){
         cart = await cartService.createCart()
@@ -28,14 +30,13 @@ router.get('/cart', async (req, res)=>{
 
 router.post('/:cid/products/:pid', async (req, res)=>{
     const {cid, pid} = req.params
-
+    
     const result = await cartService.addProduct(cid, pid)
     res.send(result)
 })
 
 router.delete('/:cid/products/:pid', async (req, res)=>{
     const {cid, pid} = req.params
-console.log("paso por aca")
     const result = await cartService.deleteProduct(cid, pid)
     res.send(result)
 })

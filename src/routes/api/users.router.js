@@ -1,5 +1,5 @@
-const { Router } = require('express')
-const { usersModel } = require('../../models/users.model')
+import { Router } from 'express'
+import  usersModel  from './../../models/users.model.js'
 
 const router = Router()
 
@@ -27,4 +27,4 @@ router.delete('/:uid', (req, res) => {
 })
 
 
-module.exports = router
+export default  router
