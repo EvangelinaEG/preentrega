@@ -2,11 +2,12 @@
     <h2>Carrito</h2>
     <h3>Cantidad de productos en el carrito {{countCart}}</h3>
      {{#if countCart}}
-        <table className="table table-dark table-striped">
+        <table class="table table-dark table-striped">
             <thead>
                <th scope="col" >Producto</th>
                <th scope="col" >Precio</th>
                <th scope="col" >Cantidad</th>
+               <th scope="col" ></th>
             </thead>
             <tbody>
                {{#each products}}
@@ -14,14 +15,17 @@
                   <td>{{ this.product.title }}</td>
                   <td>{{ this.product.price }}</td>
                   <td>{{ this.quantity }}</td>
+                  <td><a href="/carts/delete/{{this.product._id}}">Eliminar</a></td>
                   </tr>
                {{/each}}
                <tr>
                   <td></td>
+                  <td>${{ sumT }}</td>
                   <td>{{ counT }}</td>
-                  <td>{{ sumT }}</td>
+                  <td></td>
                </tr>
             </tbody>
           </table>
+          <a class="btn btn-primary" href="/products">Volver al carrito</a>
      {{/if}}
 </main>

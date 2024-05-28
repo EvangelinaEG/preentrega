@@ -20,7 +20,8 @@ export default class ProductsManagerMongo{
      
     async  getProducts({limit = 4, numPage=1, order = -1, filter = null}) {
         let products = []
-        if(filter === null){
+        
+        if(filter === '' || filter === null){
             products =  await this.productsModel.paginate({}, {limit, page: numPage, sort: { price: parseInt(order) }, lean: true })
         }else{
             products =  await this.productsModel.paginate({category: filter}, {limit, page: numPage, sort: {price: 'asc'}, lean: true })

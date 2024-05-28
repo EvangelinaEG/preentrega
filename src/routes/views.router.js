@@ -27,14 +27,15 @@ viewsrouter.post('/carts', async (req, res)=>{
                   
             const cartService = new CartManagerMongo()
             const cartFound = await cartService.getCarts()
-          
+        
+        
            let cart = ''
             if( cartFound === null ) {
                 cart = await cartService.createCart()
              
             }else{
-                cart = cartFound._id;
-               
+                cart = cartFound[0]._id;
+                
             }
 
             console.log(cart)
@@ -74,19 +75,55 @@ viewsrouter.get('/carts', async (req, res)=>{
     const docs  = await cartService.getCarts()
     let sum = 0
     let t = 0
-    sum = Object.values(docs[0].products).forEach(pro => sum + parseFloat(pro.price))
-    t = Object.values(docs[0]).forEach(pro => t + parseInt(pro.quantity))
-    console.log(sum)
-    console.log(t)
+    //console.log(docs[0].products)
+    //sum = Object.values(docs[0].products).forEach(pro => sum + parseFloat(pro.product.price))
+    //t = Object.values(docs[0].products).forEach(pro => t + parseInt(pro.quantity))
+    Object.values(docs[0].products).forEach(pro => sum += (parseFloat(pro.product.price) * parseInt(pro.quantity)))
+    Object.values(docs[0].products).forEach(pro => t += parseInt(pro.quantity))
+
      res.render('cart', {
         cart: docs[0],
         products: Object.values(docs[0].products),
-        countCart: Object.values(docs[0]).length,
-        countT: t,
+        countCart: Object.values(docs[0]).length - 1,
+        counT: t,
         sumT: sum,
         user: req.session.user? req.session.user : false
     })
    
+})
+
+viewsrouter.get("/carts/delete/:pid", async (req, res) => {
+    const {pid} = req.params
+    console.log(pid)
+    const cartService = new CartManagerMongo()
+    const cartFound = await cartService.getCarts()
+    let cart = ''
+    if( cartFound === null ) {
+        cart = await cartService.createCart()
+        
+    }else{
+        cart = cartFound[0]._id;
+        
+    }
+    const result = await cartService.deleteProduct(cart, pid)
+  
+    const docs  = await cartService.getCarts()
+    let sum = 0
+    let t = 0
+    //console.log(docs[0].products)
+    //sum = Object.values(docs[0].products).forEach(pro => sum + parseFloat(pro.product.price))
+    //t = Object.values(docs[0].products).forEach(pro => t + parseInt(pro.quantity))
+    Object.values(docs[0].products).forEach(pro => sum += (parseFloat(pro.product.price) * parseInt(pro.quantity)))
+    Object.values(docs[0].products).forEach(pro => t += parseInt(pro.quantity))
+
+     res.render('cart', {
+        cart: docs[0],
+        products: Object.values(docs[0].products),
+        countCart: Object.values(docs[0]).length,
+        counT: t,
+        sumT: sum,
+        user: req.session.user? req.session.user : false
+    })
 })
 
 viewsrouter.post('/:cid/products/:pid', async (req, res)=>{
@@ -99,11 +136,45 @@ viewsrouter.post('/:cid/products/:pid', async (req, res)=>{
 
  
 viewsrouter.get('/products', async (req, res) => {
+    
     const {limit, numPage, order, filter } = req.query
+
     const productService = new ProductsManagerMongo()
+    const productSocket = req.productSocket
+    const  socketServer  = req.socketServer 
+    const products = []
+    let rta = ''
+    
+    //console.log(req.body)
+    socketServer.on('connection', socket => {
+    
+        socket.on('product', async data => {
+            // guardamos los mensajes
+            if(data.title === '' || data.description === '' || data.price === '' || data.code === '' || data.stock === '' || data.status === '' || data.category === ''){
+                rta = {"status" : "error", "msg":'Todos los campos son obligatorios, corrobore'}
+            }
+            console.log(docs)
+            
+            const productFound = await docs.findIndex(pro => pro.code === data.code)
+           
+            if( productFound !== -1 ) {
+                rta  = {"status" : "error", "msg":'El producto ya existe'}
+               
+            }
+           if(rta === ''){
+            rta = await productService.createProduct(data)
+           }
+ 
+            if(rta._id){
+                rta  = {"status" : "success", "msg":'Producto agregado con exito'}
+            }
+            
+            socketServer.emit('messageLogs', rta )
+        })
+    })
 
     const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
-  
+
      res.render('products', {
         products: docs,
         page, 
@@ -111,10 +182,10 @@ viewsrouter.get('/products', async (req, res) => {
         hasPrevPage,
         nextPage,
         prevPage,
-        limit,
+        limit: limit === null || limit === "" || typeof limit === "undefined" ? 4 : limit,
         contproducts: docs.length > 0,
-        order: order == null? -1 : order,
-        filter: filter == null? null : filter,
+        order: order === null || typeof order === "undefined"? -1 : order,
+        filter: filter === null || filter === "" || typeof filter === "undefined"? null : filter,
         user: req.session.user? req.session.user : false
     })
 
@@ -136,6 +207,7 @@ viewsrouter.post('/products', async (req, res) => {
             if(data.title === '' || data.description === '' || data.price === '' || data.code === '' || data.stock === '' || data.status === '' || data.category === ''){
                 rta = {"status" : "error", "msg":'Todos los campos son obligatorios, corrobore'}
             }
+            console.log(docs)
             
             const productFound = await docs.findIndex(pro => pro.code === data.code)
            
