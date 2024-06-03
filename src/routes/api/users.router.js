@@ -3,6 +3,24 @@ import  usersModel  from './../../models/users.model.js'
 
 const router = Router()
 
+router.post('/', async (req, res) => {
+    
+      console.log(first_name, last_name, email, password)
+     const { first_name, last_name, email} = req.body
+     if(!email) return res.send({status: 'error', error: 'faltan campos'})
+   
+     // persistencia en mongo -> atlas
+     const newUser = {
+         first_name,
+         last_name,
+         email
+     }
+    
+     const result = await userModel.create(newUser)
+     // validar el result
+     res.status(200).send({ status: 'success', payload: result })
+})
+    
 router.get('/', async(req, res) => {
     const users = await usersModel.find({})
     res.send({status: 'success', users})

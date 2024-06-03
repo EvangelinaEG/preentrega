@@ -2,13 +2,40 @@ import passport from 'passport'
 import local from 'passport-local'
 import { UsersManagerMongo } from './../daos/usersManagerMongo.js'
 import { createhash, isValidPAssword } from './../utils/bcrypt.js'
+import GithubStrategy from 'passport-github2'
 
 const LocalStrategy = local.Strategy
 const userService = new UsersManagerMongo()
 
 export const initializePassport = () => {
+
+    passport.use('github', new GithubStrategy({
+        clientID:'Iv23lirV47QLz4G3LPSu',
+        clientSecret: '31ac728131e4d0f15492633bb3b147d525cf7cca',
+        callbackURL:'http://localhost:8080/api/sessions/githubcallback'
+    }, async (accessToken, refreshToken, profile, done) =>{
+        try{
+            let user  = await userService.getUserBy({email: profile._json.email})
+            // no existe el usuario en nuestra base de datos
+            if(!user){
+                let newUser = {
+                    first_name: profile._json.name,
+                    last_name: profile._json.name,
+                    email: profile._json.email,
+                    password: ''
+                }
+                let result = await userService.createUser(newUser) 
+                done(null, result)
+            }else{
+                done(null, user)
+            }
+
+        }catch(error){
+            return done(error)
+        }
+    } ))
     // middleware -> estrategia -> local -> username(email), password
-    passport.use('register', new LocalStrategy({
+     passport.use('register', new LocalStrategy({
         passReqToCallback: true, // req -> body -> passaport -> obj Req
         usernameField: 'email'
     }, async( req, username, password, done ) => {
@@ -51,7 +78,7 @@ export const initializePassport = () => {
         } catch (error) {
             return done(error)
         }
-    }))
+    })) 
 
     passport.serializeUser((user, done)=>{
         done(null, user._id)

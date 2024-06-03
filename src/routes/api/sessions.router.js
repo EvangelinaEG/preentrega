@@ -4,6 +4,7 @@ import { UsersManagerMongo } from './../../daos/usersManagerMongo.js'
 import { auth } from '../../middlewares/auth.middleware.js'
 import { createhash, isValidPAssword }  from '../../utils/bcrypt.js'
 import ProductsManagerMongo from './../../daos/productsMongo.manager.js';
+import { generateToken } from '../../utils/jsonwebtoken.js';
 
 import passport from 'passport'
 
@@ -12,10 +13,24 @@ export const sessionsRouter = Router()
 
 const userService = new UsersManagerMongo()
 
+sessionsRouter.get('/github', passport.authenticate('github', {scope: 'user:email'}), async (req, res)=>{})
+
+
+sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), (req,res) =>{
+    req.session.user = req.user
+    res.redirect('/products')
+})
+
 sessionsRouter.post('/register', passport.authenticate('register', {failureRedirect: '/register'}), async (req, res) => {
     //res.send({status: 'success', message: 'User Registrado'})
+   /*  const token = generateToken({
+        id: result._id,
+        email
+    }) */
     res.render('login')
 })
+
+
 sessionsRouter.post('/failregister', async (req, res) => {
     console.log('falló la estrategia')
     res.send({error: 'failed'})
@@ -29,10 +44,14 @@ sessionsRouter.post('/login', passport.authenticate('login', {failureRedirect: '
         
         email: req.user.email
     }
+    const token = generateToken({
+        id: req.user.id,
+        email: req.user.email
+    })
     //res.send({status: 'succes', payload: req.user})
     const {limit, numPage, order, filter } = req.query
     const productService = new ProductsManagerMongo()
-    console.log(req.session.user)
+    
     const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
      res.render('products', {
         products: docs,
@@ -60,9 +79,8 @@ sessionsRouter.get('/current', auth, (req, res) => {
 
 sessionsRouter.get('/logout', (req, res) => {
     req.session.destroy( err => {
-        console.log("salio")
         if(err) return res.send({status: 'error', error: err})
-        else return res.redirect('/login')
+        else  res.render('login')
     })
 })
 

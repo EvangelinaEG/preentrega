@@ -1,6 +1,6 @@
 <main class="container">
      {{#if user}}
-        <a href="/logout" class="btn btn-outline-danger w-25">Cerrar Session</a>
+        <a href="/api/sessions/logout" class="btn btn-outline-danger w-25">Cerrar Session</a>
         <h2>Bienvenid@ {{ user.first_name }} {{ user.last_name }}</h2>
       {{/if}}
     <h1>Gestor de productos</h1>
