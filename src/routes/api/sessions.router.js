@@ -96,7 +96,7 @@ sessionsRouter.post('/login', async (req, res) => {
 
  //sessionsRouter.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
 sessionsRouter.get('/current', passportCall('jwt'), atuhorization('user'), (req, res) => {
-    console.log(req.user)
+
     res.send('datos sensibles')
 })
 
