@@ -14,7 +14,7 @@ viewsrouter.get('/register', (req, res) => {
 })
 
 viewsrouter.get('/', async (req, res) => {
-    res.render('index')
+    res.redirect('login')
 })
 viewsrouter.post('/carts', async (req, res)=>{
        

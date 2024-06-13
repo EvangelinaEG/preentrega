@@ -4,7 +4,7 @@ import cartsRouter from './routes/api/carts.router.js'
 import viewsRouter from './routes/views.router.js'
 import { __dirname } from './utils.js'
 import usersRouter from './routes/api/users.router.js'
-
+ 
 // motor de plantilla
 import handlebars from 'express-handlebars'
 import productsSocket from './utils/productsSocket.js'
@@ -13,7 +13,8 @@ import { Server as ServerIO } from 'socket.io'
 import { Server as ServerHttp } from 'http'
 import connectDb from './config/index.js'
 import cookieParser from 'cookie-parser'
-import { sessionsRouter } from './routes/api/sessions.router.js'
+//import sessionsRouter from './routes/api/sessions.router.js'
+
 import session from 'express-session'
 import MongoStore  from 'connect-mongo'
 
@@ -29,13 +30,16 @@ const fileStorage = FileStore(session)
 
 // passport 
 import passport from 'passport'
-import { initializePassport } from './config/passport.config.js'
+import { initializePassport} from './config/passport.config.js'
+import { sessionsRouter } from './routes/api/sessions.router.js'
+import { format } from 'path'
+
 const app = express()
 const httpServer = new ServerHttp(app)
 const io = new ServerIO(httpServer)
 
 const PORT = process.env.PORT || 8080
-app.use(session({
+/* app.use(session({
     store: MongoStore.create({
         mongoUrl: 'mongodb+srv://vanyu77:Joluvimo777@baseseva.hebhslk.mongodb.net/?retryWrites=true&w=majority&appName=BasesEva',
         mongoOptions: {
@@ -48,11 +52,12 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 })
-)
+) */
 
-initializePassport()
+initializePassport()  
 app.use(passport.initialize())
-app.use(passport.session())
+/* app.use(passport.session()) */
+app.use(cookieParser())
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -72,7 +77,8 @@ app.set('view engine', 'hbs')
 app.use(productsSocket(io))
 
 app.use('/', viewsRouter)
-
+//const sessionRouterClass = new SessionRouter()
+//app.use('/api/sessions', sessionRouterClass.getRouter()) 
 
 app.use('/api/products', productsRouter)
 app.use('/api/carts', cartsRouter)

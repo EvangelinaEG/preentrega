@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken'
 
-const PRIVATE_KEY = 'CoderKeyS@secretToken'
+export const PRIVATE_KEY = 'CoderKeyS@secretToken'
 
 export const generateToken = user => jwt.sign({user}, PRIVATE_KEY, {'expiresIn': '24'})
 
-export const authTokenMiddleware = (req, res, next) => {
+/* export const authTokenMiddleware = (req, res, next) => {
     const authHeader = req.headers.authorization
     if(!authHeader) return res.status(401).send({status: 'error', error: 'not authenticated'})
     const token = authHeader.split(' ')[1]
@@ -13,5 +13,5 @@ export const authTokenMiddleware = (req, res, next) => {
         req.user = credential.user
         next()
     })
-}
+} */
 
