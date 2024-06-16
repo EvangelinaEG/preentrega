@@ -89,15 +89,15 @@ sessionsRouter.post('/login', async (req, res) => {
     res.cookie('token', token, {
             maxAge: 60*60*1000*24,
             httpOnly: true
-        }).send({status: 'success'})
+        }).redirect("/api/sessions/current")
         
 })
 
 
  //sessionsRouter.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
 sessionsRouter.get('/current', passportCall('jwt'), atuhorization('user'), (req, res) => {
-
-    res.send('datos sensibles')
+    
+    res.send(req.user)
 })
 
 
