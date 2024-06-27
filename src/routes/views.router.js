@@ -87,7 +87,7 @@ viewsrouter.get('/carts', async (req, res)=>{
         countCart: Object.values(docs[0]).length - 1,
         counT: t,
         sumT: sum,
-        user: req.session.user? req.session.user : false
+        
     })
    
 })
@@ -122,7 +122,7 @@ viewsrouter.get("/carts/delete/:pid", async (req, res) => {
         countCart: Object.values(docs[0]).length,
         counT: t,
         sumT: sum,
-        user: req.session.user? req.session.user : false
+      /*   user: req.session.user? req.session.user : false */
     })
 })
 
@@ -186,7 +186,7 @@ viewsrouter.get('/products', async (req, res) => {
         contproducts: docs.length > 0,
         order: order === null || typeof order === "undefined"? -1 : order,
         filter: filter === null || filter === "" || typeof filter === "undefined"? null : filter,
-        user: req.session.user? req.session.user : false
+        
     })
 
 })

@@ -1,8 +1,8 @@
 import passport from 'passport'
 import jwt from 'passport-jwt'
 import { UsersManagerMongo } from '../daos/usersManagerMongo.js'
-import { createhash, isValidPAssword } from '../utils/bcrypt.js'
-import { PRIVATE_KEY } from '../utils/jsonwebtoken.js'
+
+//import { PRIVATE_KEY } from '../utils/jsonwebtoken.js'
 
 // const userService = new UsersManagerMongo()
 const JWTStrategy = jwt.Strategy
@@ -22,7 +22,7 @@ export const initializePassport = () => {
 
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: PRIVATE_KEY
+        secretOrKey: process.env.PRIVATE_KEY
     }, async (jwt_payload, done) => {
         try {
             // if(true) return done(null, false, {messages: 'No user found'})
