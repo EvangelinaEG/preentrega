@@ -16,6 +16,7 @@ import { initializePassport} from './config/passport.config.js'
 import { format } from 'path'
 import { objectConfig } from './config/index.js'
 import routerApp from './routes/index.js'
+import cors from 'cors'
 
 const fileStorage = FileStore(session)
 const app = express()
@@ -33,6 +34,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname+'/public'))
 app.use(cookieParser('S3CR3T@'))
 connectDb()
+
 app.engine('hbs', handlebars.engine({
     extname: '.hbs'
 }))
@@ -41,7 +43,7 @@ app.set('view engine', 'hbs')
 
 //middleware
 app.use(productsSocket(io))
-
+app.use(cors)
 app.use(routerApp)
 
 // Guardar en una cont
