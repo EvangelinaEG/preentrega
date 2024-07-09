@@ -15,7 +15,7 @@ class SessionsController{
             if(!email || !password) return res.status(401).send({status: 'error', error: 'se debe completar todos los datos'})
         
             //validar si existe el usuario
-            const userExist = await this.userService.getUserBy({email})
+            const userExist = await this.userService.getBy({email})
             if(userExist) return res.status(401).send({status: 'error', error: 'el usuario ya existe'})
         
             const newUser = {
@@ -25,7 +25,7 @@ class SessionsController{
                 password: createhash(password) // lo vamos a encriptar
             }
         
-            const result = await this.userService.createUser(newUser)
+            const result = await this.userService.create(newUser)
             // datos de dentro del token
             const token = generateToken({
                 id: result._id,
@@ -45,7 +45,7 @@ class SessionsController{
         // validar si vienen los datos
         if(!email || !password) return res.status(401).send({status: 'error', error: 'se debe completar todos los datos'})
     
-        const userFound = await this.userService.getUserBy({email})
+        const userFound = await this.userService.getBy({email})
     
         if(!userFound) return res.status(400).send({status: 'error', error: 'usuario no encontrado'})
     

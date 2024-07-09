@@ -1,24 +1,24 @@
-import productsModel from "./../models/products.model.js";
+import productsModel from "./models/products.model.js";
 
 export default class ProductsManagerMongo{
     constructor(){
         this.productsModel = productsModel;
     }
 
-    async createProduct(product){
+    async create(product){
         return await this.productsModel.create(product)
     }
 
-    async getProductById(id) {
-        return this.productsModel.findById({ _id: id });
+    async get(filter) {
+        return this.productsModel.findById({ _id: filter });
     }
 
-    async getProductByName(name){
+     async getBy(name){
         return await this.productsModel.find((product) => product.name === name)
-    }
+    } 
 
      
-    async  getProducts({limit = 4, numPage=1, order = -1, filter = null}) {
+    async  getAll({limit = 4, numPage=1, order = -1, filter = null}) {
         let products = []
         
         if(filter === '' || filter === null){

@@ -1,6 +1,6 @@
 import passport from 'passport'
 import jwt from 'passport-jwt'
-import { UsersManagerMongo } from '../daos/usersManagerMongo.js'
+import { UsersManagerMongo } from '../dao/MONGO/usersManagerMongo.js'
 
 //import { PRIVATE_KEY } from '../utils/jsonwebtoken.js'
 

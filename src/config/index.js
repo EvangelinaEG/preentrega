@@ -13,10 +13,11 @@ dotenv.config({
 export const objectConfig = {
    port : process.env.PORT || 8080,
    mongo : process.env.MONGO,
-   private_key: process.env.PRIVATE_KEY
+   private_key: process.env.PRIVATE_KEY,
+   persistence: process.env.PERSISTENCE
 }
 
-const connectDB = async () => {
+export const connectDB = async () => {
     // mongodb+srv://Federico:password@coderexample.hjzrdtr.mongodb.net/c53145?retryWrites=true&w=majority
    // connect('mongodb+srv://evangelina:73x13puvi1TyTzE0@ecommerce.c5eizil.mongodb.net/')
     //connect(process.env.MONGO)

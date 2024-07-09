@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import ProductsManagerMongo from '../daos/productsMongo.manager.js';
-import CartManagerMongo from '../daos/cartsMongo.manager.js'
-import { UsersManagerMongo } from '../daos/usersManagerMongo.js'
+import ProductsManagerMongo from '../dao/MONGO/productsMongo.manager.js';
+import CartManagerMongo from '../dao/MONGO/cartsMongo.manager.js'
+import { UsersManagerMongo } from '../dao/MONGO/usersManagerMongo.js'
 
 const viewsrouter = Router()
 
@@ -94,7 +94,6 @@ viewsrouter.get('/carts', async (req, res)=>{
 
 viewsrouter.get("/carts/delete/:pid", async (req, res) => {
     const {pid} = req.params
-    console.log(pid)
     const cartService = new CartManagerMongo()
     const cartFound = await cartService.getCarts()
     let cart = ''
@@ -122,7 +121,7 @@ viewsrouter.get("/carts/delete/:pid", async (req, res) => {
         countCart: Object.values(docs[0]).length,
         counT: t,
         sumT: sum,
-      /*   user: req.session.user? req.session.user : false */
+      /*     */
     })
 })
 

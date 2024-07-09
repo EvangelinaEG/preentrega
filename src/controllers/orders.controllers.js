@@ -1,28 +1,28 @@
-import { productService } from "../service/index.js"
+import { orderService } from "../service/index.js"
 
-class ProductController{
+export default class OrderController{
     constructor(){
-        this.productService = productService
+        this.orderService = orderService
     }
 
-    getproducts    = async (req,res) => {
+    getorders    = async (req,res) => {
         try{
-            const products = await this.productService.getAll()
-            res.send({status: 'success', products})
+            const orders = await this.orderService.getAll()
+            res.send({status: 'success', orders})
         }catch(error){
             console.log(error)
         }
     } 
-    getproduct     =  async (req, res) => {
+    getorder     =  async (req, res) => {
         try{
             const { uid } = req.params
-            const productFound = await this.productService.get({_id: uid})
-            res.send({status: 'success', payload: productFound})
+            const orderFound = await this.orderService.get({_id: uid})
+            res.send({status: 'success', payload: orderFound})
         }catch(error){
             console.log(error)
         }
     }
-    createproduct  = async (req, res) => {
+    createorder  = async (req, res) => {
         try{
             const  socketServer  = req.socketServer 
             const messages = []
@@ -30,23 +30,23 @@ class ProductController{
                 alert('Cliente conectado post')
             
             })
-            const result = await this.productService.create(body)
+            const result = await this.orderService.create(body)
             res.send({status: 'success', data: result})
         }catch(error){
             console.log(error)
         }
   }
 
-  getProductById     =  async (req, res) => {
+  getorderById     =  async (req, res) => {
     try{
         const { pid } = req.params
-        const productFound = await this.productService.getBy(pid)
-        res.send({status: 'success', payload: productFound})
+        const orderFound = await this.orderService.getBy(pid)
+        res.send({status: 'success', payload: orderFound})
     }catch(error){
         console.log(error)
     }
 }
-updateproduct  = async (req, res) => {
+updateorder  = async (req, res) => {
     try{
         const  socketServer  = req.socketServer 
         const messages = []
@@ -54,24 +54,24 @@ updateproduct  = async (req, res) => {
             alert('Cliente conectado post')
         
         })
-        const result = await this.productService.create(body)
+        const result = await this.orderService.create(body)
         res.send({status: 'success', data: result})
     }catch(error){
         console.log(error)
     }
 } 
-  /*   updateproduct  = async (req, res) => {
+  /*   updateorder  = async (req, res) => {
         try{
             const { body } = req
-            const result = await this.productService.updateProduct({ body });
+            const result = await this.orderService.updateorder({ body });
             res.send({status: 'success', data: result})
         }catch(error){
             console.log(error)
         }
     } */
-    deleteproduct = async (req, res) => {
+    deleteorder = async (req, res) => {
         try{
-            const result = await this.productService.delete({ _id: pid });
+            const result = await this.orderService.delete({ _id: pid });
             res.send({status: 'success', data: result})
         }catch(error){
             console.log(error)
@@ -79,5 +79,3 @@ updateproduct  = async (req, res) => {
     }
 
 }
-
-export default ProductController

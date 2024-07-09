@@ -1,20 +1,20 @@
-import cartsModel from "./../models/carts.model.js"
+import cartsModel from "./models/carts.model.js"
 
 class CartManagerMongo {
     constructor(){
         this.model = cartsModel
     }
 
-    getCarts = async () => await this.model.find().lean()
-    getCart = async (cid) => {
+    getall = async () => await this.model.find().lean()
+    get = async (cid) => {
         const cart = await this.model.findOne({_id : id})
         return cart
     }
-    createCart = async () => {
+    create = async () => {
         const cart = await this.model.create({products: []})
         return cart._id 
     }
-    addProduct = async (cid, pid) => {
+    add = async (cid, pid) => {
         const cart = await this.model.findOne({_id: cid})
         console.log(cid)
         // cart.products array -> {prduct: 'kajshfkhsfd', quantity: 5}
@@ -29,7 +29,7 @@ class CartManagerMongo {
         const resp = await cartsModel.findByIdAndUpdate({_id: cid}, cart) 
         return resp
     }
-    deleteProduct = async (cid, pid) => {
+    delete = async (cid, pid) => {
         const cart = await this.model.findOne({_id: cid})
         // cart.products array -> {prduct: 'kajshfkhsfd', quantity: 5}
         

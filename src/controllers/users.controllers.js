@@ -29,11 +29,12 @@ class UserController{
             if(!email) return res.send({status: 'error', error: 'faltan campos'})
             
             // persistencia en mongo -> atlas
-            const newUser = {
+            const newUser = new UserDao ({
                 first_name,
                 last_name,
                 email
-            }
+            })
+            
             
             const result = await this.userService.createUser(newUser)
             // validar el result

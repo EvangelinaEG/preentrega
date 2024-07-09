@@ -4,7 +4,7 @@ import handlebars from 'express-handlebars'
 import productsSocket from './utils/productsSocket.js'
 import { Server as ServerIO } from 'socket.io'
 import { Server as ServerHttp } from 'http'
-import connectDb from './config/index.js'
+import  connectDB from './config/index.js'
 import cookieParser from 'cookie-parser'
 //import sessionsRouter from './routes/api/sessions.router.js'
 import session from 'express-session'
@@ -33,7 +33,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname+'/public'))
 app.use(cookieParser('S3CR3T@'))
-connectDb()
+connectDB()
 
 app.engine('hbs', handlebars.engine({
     extname: '.hbs'
