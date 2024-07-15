@@ -7,14 +7,19 @@ import  sessionsRouter  from "./api/sessions.router.js"
 
 
 const router = Router()
-
 router.use('/', viewsRouter)
-
+router.get('/login', (req, res) => {
+    res.render('login')
+})
+router.get('/register', (req, res) => {
+    res.render('register')
+})
 router.use('/api/sessions', sessionsRouter) 
-
 router.use('/api/products', productsRouter)
 router.use('/api/users', usersRouter)
 router.use('/api/carts', cartsRouter)
+
+
 
 router.use((error, req, res, next) => {
     console.log(error)

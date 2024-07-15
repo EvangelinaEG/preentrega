@@ -1,8 +1,8 @@
 // session -> login - register - logout
 import { Router} from 'express'
-import { UsersManagerMongo } from '../../dao/MONGO/usersManagerMongo.js'
+//import { UsersManagerMongo } from '../../dao/MONGO/usersMongo.manager.js'
 //import { auth } from '../middlewares/auth.middleware.js'
-import { createhash, isValidPAssword }  from '../../utils/bcrypt.js'
+import { createhash, isValidPassword }  from '../../utils/bcrypt.js'
 import passport from 'passport'
 
 import { passportCall } from '../../utils/passportCall.js'
@@ -28,6 +28,6 @@ sessionsRouter.post('/login', login)
 sessionsRouter.get('/logout', logout)
 
 
-sessionsRouter.get('/current', passportCall('jwt'), atuhorization(['public','user','admin']), currentUser)
+sessionsRouter.get('/current', passportCall('jwt'), atuhorization(['user','admin']), currentUser)
 
 export default sessionsRouter

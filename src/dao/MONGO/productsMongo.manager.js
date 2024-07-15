@@ -1,6 +1,5 @@
 import productsModel from "./models/products.model.js";
-
-export default class ProductsManagerMongo{
+ class ProductsManagerMongo{
     constructor(){
         this.productsModel = productsModel;
     }
@@ -29,3 +28,5 @@ export default class ProductsManagerMongo{
         return products
     }
 }
+
+export default ProductsManagerMongo

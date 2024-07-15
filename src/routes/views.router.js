@@ -1,32 +1,21 @@
 import { Router } from 'express';
 import ProductsManagerMongo from '../dao/MONGO/productsMongo.manager.js';
 import CartManagerMongo from '../dao/MONGO/cartsMongo.manager.js'
-import { UsersManagerMongo } from '../dao/MONGO/usersManagerMongo.js'
+import  UsersManagerMongo  from '../dao/MONGO/usersMongo.manager.js'
 
 const viewsrouter = Router()
-
-viewsrouter.get('/login', (req, res) => {
-    res.render('login')
-})
-
-viewsrouter.get('/register', (req, res) => {
-    res.render('register')
-})
 
 viewsrouter.get('/', async (req, res) => {
     res.redirect('login')
 })
-viewsrouter.post('/carts', async (req, res)=>{
-       
+viewsrouter.post('/carts', async (req, res)=>{     
     const  socketServer  = req.socketServer 
-    
     socketServer.on('connection', socket => {
-    
         socket.on('cart', async data => {
             // guardamos los mensajes
                   
             const cartService = new CartManagerMongo()
-            const cartFound = await cartService.getCarts()
+            const cartFound = await cartService.getAll()
         
         
            let cart = ''
@@ -38,9 +27,8 @@ viewsrouter.post('/carts', async (req, res)=>{
                 
             }
 
-            console.log(cart)
                      
-            const product = await cartService.addProduct(cart, data.pid)
+            const product = await cartService.add(cart, data.pid)
          
             //products.push(data)
             // emitimos los mensajes
@@ -72,7 +60,7 @@ viewsrouter.get('/carts', async (req, res)=>{
 
     const cartService = new CartManagerMongo()
 
-    const docs  = await cartService.getCarts()
+    const docs  = await cartService.getAll()
     let sum = 0
     let t = 0
     //console.log(docs[0].products)
@@ -95,18 +83,18 @@ viewsrouter.get('/carts', async (req, res)=>{
 viewsrouter.get("/carts/delete/:pid", async (req, res) => {
     const {pid} = req.params
     const cartService = new CartManagerMongo()
-    const cartFound = await cartService.getCarts()
+    const cartFound = await cartService.getAll()
     let cart = ''
     if( cartFound === null ) {
-        cart = await cartService.createCart()
+        cart = await cartService.create()
         
     }else{
         cart = cartFound[0]._id;
         
     }
-    const result = await cartService.deleteProduct(cart, pid)
+    const result = await cartService.delete(cart, pid)
   
-    const docs  = await cartService.getCarts()
+    const docs  = await cartService.getAll()
     let sum = 0
     let t = 0
     //console.log(docs[0].products)
@@ -129,7 +117,7 @@ viewsrouter.post('/:cid/products/:pid', async (req, res)=>{
     const cartService = new CartManagerMongo()
     const {cid, pid} = req.params
 
-    const result = await cartService.addProduct(cid, pid)
+    const result = await cartService.add(cid, pid)
     res.send(result)
 })
 
@@ -161,7 +149,7 @@ viewsrouter.get('/products', async (req, res) => {
                
             }
            if(rta === ''){
-            rta = await productService.createProduct(data)
+            rta = await productService.create(data)
            }
  
             if(rta._id){
@@ -172,7 +160,7 @@ viewsrouter.get('/products', async (req, res) => {
         })
     })
 
-    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
+    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getAll({limit, numPage, order, filter})
 
      res.render('products', {
         products: docs,
@@ -198,7 +186,7 @@ viewsrouter.post('/products', async (req, res) => {
     const products = []
     let rta = ''
     const productService = new ProductsManagerMongo()
-    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts(4,1, -1, null)
+    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getAll(4,1, -1, null)
     socketServer.on('connection', socket => {
     
         socket.on('product', async data => {
@@ -215,7 +203,7 @@ viewsrouter.post('/products', async (req, res) => {
                
             }
            if(rta === ''){
-            rta = await productService.createProduct(data)
+            rta = await productService.create(data)
            }
  
             if(rta._id){
@@ -242,7 +230,7 @@ viewsrouter.get('/users', async (req, res) => {
     const {numPage, limit} = req.query
    
     const userService = new UsersManagerMongo()
-    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await userService.getUsers({limit, numPage })
+    const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await userService.getAll({limit, numPage })
     // console.log(resp)
 
     res.render('users', {

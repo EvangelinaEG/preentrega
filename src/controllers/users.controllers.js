@@ -24,7 +24,7 @@ class UserController{
     }
     createUser  = async (req, res) => {
         try{
-                console.log(first_name, last_name, email, password)
+                
             const { first_name, last_name, email} = req.body
             if(!email) return res.send({status: 'error', error: 'faltan campos'})
             

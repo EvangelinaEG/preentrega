@@ -1,7 +1,9 @@
-import { Schema, model }  from "mongoose"
-import mongoosePaginate from 'mongoose-paginate-v2'
+import pkg from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
-const userCollection = 'users'
+const { Schema, model, models } = pkg;
+
+const userCollection = 'users';
 
 const userSchema = new Schema({
     fullName: {
@@ -18,21 +20,21 @@ const userSchema = new Schema({
         required: true, 
         unique: true
     },
-    age:Number,
+    age: Number,
     password: String,
     cartId: {
         type: Schema.ObjectId,
         ref: 'carts'
     },
-    role:{
+    role: {
         type: String,
         enum: ['user', 'user_premium', 'admin'],
         default: 'user'
-    } 
-})
-// odm 
+    }
+});
 
-userSchema.plugin(mongoosePaginate)
+userSchema.plugin(mongoosePaginate);
 
-const userModel = model(userCollection, userSchema)
-export default userModel
+const userModel = models[userCollection] || model(userCollection, userSchema);
+
+export default userModel;

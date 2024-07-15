@@ -1,23 +1,25 @@
-import {Schema, model} from 'mongoose'
+import pkg from 'mongoose';
+
+const { Schema, model, models } = pkg;
+
+const cartCollection = 'carts';
 
 const CartSchema = new Schema({
-    // userId: String
     products: {
         type: [{
             product: {
                 type: Schema.Types.ObjectId,
                 ref: 'products'
             },
-             quantity: Number
+            quantity: Number
         }]
     }
-})
-
+});
 
 CartSchema.pre('find', function() {
-    this.populate('products.product')
-})
+    this.populate('products.product');
+});
 
+const cartsModel = models[cartCollection] || model(cartCollection, CartSchema);
 
-const cartsModel = model('carts', CartSchema)
-export default cartsModel
+export default cartsModel;

@@ -1,7 +1,9 @@
-import { Schema, model } from 'mongoose';
-import mongoosePaginate from 'mongoose-paginate-v2'
+import pkg from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
-const productCollection = 'products'
+const { Schema, model, models } = pkg;
+
+const productCollection = 'products';
 
 const productSchema = new Schema({
     title: {
@@ -19,10 +21,12 @@ const productSchema = new Schema({
     status: Boolean,
     category: {
         type: String,
-        index: true   
+        index: true
     }
-})
-productSchema.plugin(mongoosePaginate)
+});
 
-const productModel = model(productCollection, productSchema)
-export default productModel
+productSchema.plugin(mongoosePaginate);
+
+const productsModel = models[productCollection] || model(productCollection, productSchema);
+
+export default productsModel;

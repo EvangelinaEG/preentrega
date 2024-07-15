@@ -1,6 +1,6 @@
 import ordersModel from "./models/order.model.js";
 
-export default class OrdersManagerMongo{
+class OrdersManagerMongo{
     constructor(){
         this.ordersModel = ordersModel;
     }
@@ -14,3 +14,5 @@ export default class OrdersManagerMongo{
     }
     
 }
+
+export default OrdersManagerMongo

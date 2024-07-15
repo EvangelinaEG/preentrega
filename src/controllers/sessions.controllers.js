@@ -1,5 +1,5 @@
 import { userService } from "../service/index.js"
-import { createhash, isValidPAssword } from '../utils/bcrypt.js'
+import { createhash, isValidPassword } from '../utils/bcrypt.js'
 import { generateToken } from '../utils/jsonwebtoken.js';
 
 class SessionsController{
@@ -7,9 +7,13 @@ class SessionsController{
         this.userService = userService
     }
 
+    currentUser = async (req, res) => {
+        console.log(req.body)
+    }
+
     register = async (req, res) => {
         try {
-            const {first_name, last_name, email, password } = req.body
+            const { first_name, last_name, email, password } = req.body
             
             // validar si vienen los datos
             if(!email || !password) return res.status(401).send({status: 'error', error: 'se debe completar todos los datos'})
@@ -25,7 +29,7 @@ class SessionsController{
                 password: createhash(password) // lo vamos a encriptar
             }
         
-            const result = await this.userService.create(newUser)
+            const result = await this.userService.createUser(newUser)
             // datos de dentro del token
             const token = generateToken({
                 id: result._id,
@@ -45,13 +49,13 @@ class SessionsController{
         // validar si vienen los datos
         if(!email || !password) return res.status(401).send({status: 'error', error: 'se debe completar todos los datos'})
     
-        const userFound = await this.userService.getBy({email})
-    
+       const userFound = await this.userService.getBy({email})
+       
         if(!userFound) return res.status(400).send({status: 'error', error: 'usuario no encontrado'})
-    
-        // const isValid = isValidPAssword(password, { password: userFound.password }) // return bool true/false
-    
-        if(!isValidPAssword(userFound, password)) return res.status(401).send({status: 'error', error: 'Pasword incorrecto'})
+           
+         const isValid = isValidPassword(password, { password: userFound.password }) // return bool true/false
+        
+        if(!isValid) return res.status(401).send({status: 'error', error: 'Pasword incorrecto'})
     
         // req.session.user = {
         //     email,

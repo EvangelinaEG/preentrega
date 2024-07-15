@@ -1,8 +1,11 @@
 import {Schema, model} from 'mongoose'
 
 const OrderSchema = new Schema({
-    code: String, // se autogenera y es unico
-    purchase_datetime: date, // fecha y hora que se realizo la compra
+    code: String, 
+    purchase_datetime: {
+        type: Date,
+        default: Date.now 
+    },
     amount: Number, //total de la compra
     purchaser: String //correo asociado al carrito
 })

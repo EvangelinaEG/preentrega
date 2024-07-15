@@ -1,34 +1,37 @@
-//import { logger } from '../middleware/logger'
+//import UserDto from "../dto/user.dto.js"
+//import  UsersManagerMongo  from "../dao/MONGO/usersMongo.manager.js"
+
 
 class UserRepositories { 
     constructor(dao){
-        this.dao = dao
+        this.dao =  dao
     }
 
     async getUsers(limit, page){
         try {
-            return await this.dao.get(limit, page)            
+            return await  this.dao.get(limit, page)            
         } catch (error) {
             return error
         }
     }
-
-    async getUser(email){
+    
+    async getBy(email){
         try {
-            return await this.dao.getBy(email)   
+            return await  this.dao.getUserByEmail(email)   
         } catch (error) {
-            logger.error(error)
+            console.log(error)
         }
     }
     
     async createUser(user){
         try {
             const newUser = new UserDto(user)
-            return await this.dao.create(newUser)       
+            return await  this.dao.create(newUser)       
         } catch (error) {
             return error
         }
     }
+    
 
     async updateUser(){}    
     async deleteUser(){}    

@@ -5,7 +5,7 @@ class CartManagerMongo {
         this.model = cartsModel
     }
 
-    getall = async () => await this.model.find().lean()
+    getAll = async () => await this.model.find().lean()
     get = async (cid) => {
         const cart = await this.model.findOne({_id : id})
         return cart
