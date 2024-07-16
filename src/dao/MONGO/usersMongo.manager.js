@@ -20,7 +20,7 @@ class UsersManagerMongo {
     }
   
     getBy = async (id) => {
-      return await this.userModel.findById({ _id: id });
+      return await this.userModel.findById({ _id: id })
     } 
   
     getUserByEmail = async (email) => {

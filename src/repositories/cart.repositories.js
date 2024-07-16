@@ -6,7 +6,7 @@ class CartRepositories {
 
     async getCarts(){
         try {
-            let res = await this.cartDao.get()
+            let res = await this.cartDao.getAll()
             console.log(res)
             return res
         } catch (error) {
@@ -40,7 +40,7 @@ class CartRepositories {
 
     async deleteProductFromCart(cid, pid){
         try {
-            return await this.cartDao.deleteItem(cid, pid)
+            return await this.cartDao.delete(cid, pid)
         } catch (error) {
             return new Error(error)
         }
@@ -54,7 +54,14 @@ class CartRepositories {
         }
     }
    
-
+    checkoutCart = async (req, res) => {
+        const {cid} = req.params
+        console.log(cid)
+        res.json({
+            status: 'success',
+            message: 'Purchase completed successfully',
+        })
+    }
 
 } 
 

@@ -2,7 +2,7 @@
 import { Router} from 'express'
 //import { UsersManagerMongo } from '../../dao/MONGO/usersMongo.manager.js'
 //import { auth } from '../middlewares/auth.middleware.js'
-import { createhash, isValidPassword }  from '../../utils/bcrypt.js'
+//import { createhash, isValidPassword }  from '../../utils/bcrypt.js'
 import passport from 'passport'
 
 import { passportCall } from '../../utils/passportCall.js'
@@ -14,7 +14,9 @@ const {
     login,
     register,
     logout,
-    currentUser
+    currentUser,
+    autorizacion,
+    autenticacion
 } = new SessionsController()
 
 sessionsRouter.get('/github', passport.authenticate('github', {scope: 'user:email'}), async (req, res)=>{})
@@ -24,10 +26,11 @@ sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRe
 })
 sessionsRouter.post('/register', register)
 sessionsRouter.post('/login', login)
+
  //sessionssessionsRouter.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
 sessionsRouter.get('/logout', logout)
 
 
-sessionsRouter.get('/current', passportCall('jwt'), atuhorization(['user','admin']), currentUser)
+sessionsRouter.get('/current', passportCall('jwt'), atuhorization('user','admin'), currentUser)
 
 export default sessionsRouter

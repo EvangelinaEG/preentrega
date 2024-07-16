@@ -1,28 +1,28 @@
-import { orderService } from "../service/index.js"
+import { ticketService } from "../service/index.js"
 
-export default class OrderController{
+export default class ticketController{
     constructor(){
-        this.orderService = orderService
+        this.ticketService = ticketService
     }
 
-    getorders    = async (req,res) => {
+    gettickets    = async (req,res) => {
         try{
-            const orders = await this.orderService.getAll()
-            res.send({status: 'success', orders})
+            const tickets = await this.ticketService.getAll()
+            res.send({status: 'success', tickets})
         }catch(error){
             console.log(error)
         }
     } 
-    getorder     =  async (req, res) => {
+    getticket     =  async (req, res) => {
         try{
             const { uid } = req.params
-            const orderFound = await this.orderService.get({_id: uid})
-            res.send({status: 'success', payload: orderFound})
+            const ticketFound = await this.ticketService.get({_id: uid})
+            res.send({status: 'success', payload: ticketFound})
         }catch(error){
             console.log(error)
         }
     }
-    createorder  = async (req, res) => {
+    createticket  = async (req, res) => {
         try{
             const  socketServer  = req.socketServer 
             const messages = []
@@ -30,23 +30,23 @@ export default class OrderController{
                 alert('Cliente conectado post')
             
             })
-            const result = await this.orderService.create(body)
+            const result = await this.ticketService.create(body)
             res.send({status: 'success', data: result})
         }catch(error){
             console.log(error)
         }
   }
 
-  getorderById     =  async (req, res) => {
+  getticketById     =  async (req, res) => {
     try{
         const { pid } = req.params
-        const orderFound = await this.orderService.getBy(pid)
-        res.send({status: 'success', payload: orderFound})
+        const ticketFound = await this.ticketService.getBy(pid)
+        res.send({status: 'success', payload: ticketFound})
     }catch(error){
         console.log(error)
     }
 }
-updateorder  = async (req, res) => {
+updateticket  = async (req, res) => {
     try{
         const  socketServer  = req.socketServer 
         const messages = []
@@ -54,24 +54,24 @@ updateorder  = async (req, res) => {
             alert('Cliente conectado post')
         
         })
-        const result = await this.orderService.create(body)
+        const result = await this.ticketService.create(body)
         res.send({status: 'success', data: result})
     }catch(error){
         console.log(error)
     }
 } 
-  /*   updateorder  = async (req, res) => {
+  /*   updateticket  = async (req, res) => {
         try{
             const { body } = req
-            const result = await this.orderService.updateorder({ body });
+            const result = await this.ticketService.updateticket({ body });
             res.send({status: 'success', data: result})
         }catch(error){
             console.log(error)
         }
     } */
-    deleteorder = async (req, res) => {
+    deleteticket = async (req, res) => {
         try{
-            const result = await this.orderService.delete({ _id: pid });
+            const result = await this.ticketService.delete({ _id: pid });
             res.send({status: 'success', data: result})
         }catch(error){
             console.log(error)

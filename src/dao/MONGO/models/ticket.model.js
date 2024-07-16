@@ -1,6 +1,6 @@
 import {Schema, model} from 'mongoose'
 
-const OrderSchema = new Schema({
+const TicketSchema = new Schema({
     code: String, 
     purchase_datetime: {
         type: Date,
@@ -10,5 +10,5 @@ const OrderSchema = new Schema({
     purchaser: String //correo asociado al carrito
 })
 
-const orderModel = model('order', OrderSchema)
-export default orderModel
+const ticketModel = model('ticket', TicketSchema)
+export default ticketModel

@@ -14,10 +14,12 @@ class UserController{
         }
     } 
     getUser     =  async (req, res) => {
+        
         try{
             const { uid } = req.params
-            const userFound = await this.userService.getUserBy({_id: uid})
+            const userFound = await this.userService.getById({_id: uid})
             res.send({status: 'success', payload: userFound})
+            
         }catch(error){
             console.log(error)
         }
@@ -42,12 +44,41 @@ class UserController{
         }catch(error){
             console.log(error)
         }
-  }
+    }
     updateUser  = (req, res) => {
         res.send('update User')
     }
     deleteUser = (req, res) => {
         res.send('delete User')
+    }
+
+    autenticacion = async (req, res) => {
+        try{
+            res.render("autenticacion")
+        }catch(error){
+            console.log(error)
+        }
+        
+    }
+
+    autorizacion = async (req, res) => {
+        try{
+            res.render("autorizacion")
+        }catch(error){
+            console.log(error)
+        }
+       
+    }
+
+    logout = async (req, res) => {
+        try{
+            res.cookie('token', "", {
+                maxAge: -1,
+                httpOnly: true
+            }).redirect("/login")
+        }catch(error){
+            console.log(error)
+        }
     }
 
 }

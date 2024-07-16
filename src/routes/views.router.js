@@ -2,13 +2,29 @@ import { Router } from 'express';
 import ProductsManagerMongo from '../dao/MONGO/productsMongo.manager.js';
 import CartManagerMongo from '../dao/MONGO/cartsMongo.manager.js'
 import  UsersManagerMongo  from '../dao/MONGO/usersMongo.manager.js'
+import { passportCall } from '../utils/passportCall.js'
+import { atuhorization } from '../utils/authorizationJwt.js'
 
 const viewsrouter = Router()
 
 viewsrouter.get('/', async (req, res) => {
     res.redirect('login')
 })
-viewsrouter.post('/carts', async (req, res)=>{     
+
+viewsrouter.get('/logout', async (req, res) => {
+    res.redirect('api/sessions/logout')
+})
+
+viewsrouter.get('/autorizacion', async (req, res) => {
+    res.render('autorizacion')
+})
+
+viewsrouter.get('/autenticacion', async (req, res) => {
+    res.render('autenticacion')
+})
+
+
+viewsrouter.post('/carts', passportCall('jwt'), atuhorization('admin'),async (req, res)=>{     
     const  socketServer  = req.socketServer 
     socketServer.on('connection', socket => {
         socket.on('cart', async data => {
@@ -80,7 +96,7 @@ viewsrouter.get('/carts', async (req, res)=>{
    
 })
 
-viewsrouter.get("/carts/delete/:pid", async (req, res) => {
+viewsrouter.get("/carts/delete/:pid", passportCall('jwt'), atuhorization('admin'),async (req, res) => {
     const {pid} = req.params
     const cartService = new CartManagerMongo()
     const cartFound = await cartService.getAll()
@@ -113,7 +129,8 @@ viewsrouter.get("/carts/delete/:pid", async (req, res) => {
     })
 })
 
-viewsrouter.post('/:cid/products/:pid', async (req, res)=>{
+viewsrouter.post('/:cid/products/:pid', passportCall('jwt'), atuhorization('admin'),async (req, res)=>{
+
     const cartService = new CartManagerMongo()
     const {cid, pid} = req.params
 
@@ -179,7 +196,7 @@ viewsrouter.get('/products', async (req, res) => {
 })
 
 
-viewsrouter.post('/products', async (req, res) => {
+viewsrouter.post('/products', passportCall('jwt'), atuhorization('admin'), async (req, res) => {
    
     const productSocket = req.productSocket
     const  socketServer  = req.socketServer 
@@ -226,7 +243,7 @@ viewsrouter.post('/products', async (req, res) => {
     })
 })
 
-viewsrouter.get('/users', async (req, res) => {
+viewsrouter.get('/users', passportCall('jwt'), atuhorization('user'), async (req, res) => {
     const {numPage, limit} = req.query
    
     const userService = new UsersManagerMongo()
@@ -243,7 +260,7 @@ viewsrouter.get('/users', async (req, res) => {
     })
 })
 
-viewsrouter.get('/chat', (req, res) => {
+viewsrouter.get('/chat',passportCall('jwt'), atuhorization('user'), (req, res) => {
     const { socketServer } = req
 
     socketServer.on('connection', socket => {

@@ -17,7 +17,8 @@ import productsModel from "./models/products.model.js";
     } 
 
      
-    async  getAll({limit = 4, numPage=1, order = -1, filter = null}) {
+    async getAll({limit = 4, numPage=1, order = -1, filter = null}) {
+    
         let products = []
         
         if(filter === '' || filter === null){

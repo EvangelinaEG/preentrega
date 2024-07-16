@@ -22,6 +22,15 @@ class UserRepositories {
             console.log(error)
         }
     }
+
+    async getById(id){
+        console.log(id)
+        try {
+            return await  this.dao.getBy(id)   
+        } catch (error) {
+            console.log(error)
+        }
+    }
     
     async createUser(user){
         try {

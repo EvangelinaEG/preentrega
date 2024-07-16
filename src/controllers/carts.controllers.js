@@ -7,9 +7,23 @@ class cartController{
 
     getcarts    = async (req,res) => {
         try{
-            
-            const carts = await cartService.getAll()
-            res.send(carts)
+            const docs  = await cartService.getCarts()
+            let sum = 0
+            let t = 0
+            //console.log(docs[0].products)
+            //sum = Object.values(docs[0].products).forEach(pro => sum + parseFloat(pro.product.price))
+            //t = Object.values(docs[0].products).forEach(pro => t + parseInt(pro.quantity))
+            Object.values(docs[0].products).forEach(pro => sum += (parseFloat(pro.product.price) * parseInt(pro.quantity)))
+            Object.values(docs[0].products).forEach(pro => t += parseInt(pro.quantity))
+
+            res.render('cart', {
+                cart: docs[0],
+                products: Object.values(docs[0].products),
+                countCart: Object.values(docs[0]).length - 1,
+                counT: t,
+                sumT: sum,
+                
+            })
             
         }catch(error){
             console.log(error)
@@ -18,7 +32,7 @@ class cartController{
     getcart     =  async (req, res) => {
         try{
             const {cid } = req.params
-            const cart = await cartService.get({ cid })
+            const cart = await cartService.getcartById({ cid })
             res.send(cart)
          
         }catch(error){
@@ -27,7 +41,7 @@ class cartController{
     }
     createcart  = async (req, res) => {
         try{
-            const carts = await cartService.getAll()
+            const carts = await cartService.getCarts()
             let cart = {}
             if(carts.length === 0){
                 cart = await cartService.createCart()
@@ -57,6 +71,26 @@ class cartController{
             console.log(error)
         }
     } 
+    checkoutCart = async (req, res) => {
+        const {cid} = req.params
+        const docs  = await cartService.getCarts()
+        let sum = 0
+        let t = 0
+        //console.log(docs[0].products)
+        //sum = Object.values(docs[0].products).forEach(pro => sum + parseFloat(pro.product.price))
+        //t = Object.values(docs[0].products).forEach(pro => t + parseInt(pro.quantity))
+        Object.values(docs[0].products).forEach(pro => sum += (parseFloat(pro.product.price) * parseInt(pro.quantity)))
+        Object.values(docs[0].products).forEach(pro => t += parseInt(pro.quantity))
+
+        res.render('order', {
+            cart: docs[0],
+            products: Object.values(docs[0].products),
+            countCart: Object.values(docs[0]).length - 1,
+            counT: t,
+            sumT: sum,
+            mensaje:"Su compra fue completada"
+        })
+    }
   /*   updatecart  = async (req, res) => {
         try{
             const { body } = req
@@ -68,13 +102,39 @@ class cartController{
     } */
     deletecart = async (req, res) => {
         try{
-            const {cid, pid} = req.params
-            const result = await cartService.delete(cid, pid)
-            res.send(result)
-        }catch(error){
-            console.log(error)
-        }
-    }
+            const {pid} = req.params
+            const cartFound = await cartService.getCarts()
+            let cart = ''
+            if( cartFound === null ) {
+                cart = await cartService.createCarts()
+                
+            }else{
+                cart = cartFound[0]._id;
+                
+            }
+            const result = await cartService.deleteProductFromCart(cart, pid)
+  
+            const docs  = await cartService.getCarts()
+            let sum = 0
+            let t = 0
+            //console.log(docs[0].products)
+            //sum = Object.values(docs[0].products).forEach(pro => sum + parseFloat(pro.product.price))
+            //t = Object.values(docs[0].products).forEach(pro => t + parseInt(pro.quantity))
+            Object.values(docs[0].products).forEach(pro => sum += (parseFloat(pro.product.price) * parseInt(pro.quantity)))
+            Object.values(docs[0].products).forEach(pro => t += parseInt(pro.quantity))
+
+            res.render('cart', {
+                cart: docs[0],
+                products: Object.values(docs[0].products),
+                countCart: Object.values(docs[0]).length,
+                counT: t,
+                sumT: sum,
+            /*     */
+            })
+                }catch(error){
+                    console.log(error)
+                }
+            }
 
 }
 

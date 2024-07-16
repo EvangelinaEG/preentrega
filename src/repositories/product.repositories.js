@@ -5,11 +5,12 @@ class ProductRepositories {
     }
 
     async getProducts(objConfig){
+        
         try {
             objConfig.limit = objConfig.limit &&  parseInt(objConfig.limit)
             objConfig.page  = objConfig.page  && parseInt(objConfig.page)
             objConfig.sort  = objConfig.sort  && parseInt(objConfig.sort)
-            return await this.dao.get(objConfig)            
+            return await this.dao.getAll(objConfig)            
         } catch (error) {
             return error
         }

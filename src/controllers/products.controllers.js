@@ -7,8 +7,24 @@ class ProductController{
 
     getproducts    = async (req,res) => {
         try{
-            const products = await this.productService.getAll()
-            res.send({status: 'success', products})
+            const {limit, numPage, order, filter } = req.query
+
+            
+            const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
+
+            res.render('products', {
+               products: docs,
+               page, 
+               hasNextPage,
+               hasPrevPage,
+               nextPage,
+               prevPage,
+               limit: limit === null || limit === "" || typeof limit === "undefined" ? 4 : limit,
+               contproducts: docs.length > 0,
+               order: order === null || typeof order === "undefined"? -1 : order,
+               filter: filter === null || filter === "" || typeof filter === "undefined"? null : filter,
+               
+           })
         }catch(error){
             console.log(error)
         }
@@ -16,7 +32,7 @@ class ProductController{
     getproduct     =  async (req, res) => {
         try{
             const { uid } = req.params
-            const productFound = await this.productService.get({_id: uid})
+            const productFound = await this.productService.getProduct({_id: uid})
             res.send({status: 'success', payload: productFound})
         }catch(error){
             console.log(error)
@@ -30,7 +46,7 @@ class ProductController{
                 alert('Cliente conectado post')
             
             })
-            const result = await this.productService.create(body)
+            const result = await this.productService.createProduct(body)
             res.send({status: 'success', data: result})
         }catch(error){
             console.log(error)

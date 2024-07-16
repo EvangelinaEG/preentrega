@@ -8,8 +8,10 @@ class SessionsController{
     }
 
     currentUser = async (req, res) => {
-        console.log(req.body)
+        res.send('Acceso permitido')
     }
+
+    
 
     register = async (req, res) => {
         try {
@@ -29,7 +31,7 @@ class SessionsController{
                 password: createhash(password) // lo vamos a encriptar
             }
         
-            const result = await this.userService.createUser(newUser)
+            const result = await this.userService.create(newUser)
             // datos de dentro del token
             const token = generateToken({
                 id: result._id,
@@ -79,10 +81,10 @@ class SessionsController{
     
     logout = async (req, res) => {
         try{
-            req.session.destroy( err => {
-                if(err) return res.send({status: 'error', error: err})
-                else return res.redirect('/login')
-            })
+            res.cookie('token', "", {
+                maxAge: -1,
+                httpOnly: true
+            }).redirect("/login")
         }catch(error){
             console.log(error)
         }

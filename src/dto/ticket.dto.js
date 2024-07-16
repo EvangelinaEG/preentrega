@@ -1,5 +1,5 @@
-class OrderDTO {
-    constructor(newOrder){
+class ticketDTO {
+    constructor(newTicket){
         this.purchase_datetime = newOrder.purchase_datetime
         this.amount = newOrder.amount
         this.purchaaser = newOrder.price
@@ -7,4 +7,4 @@ class OrderDTO {
     }
 }
 
-export default OrderDTO
+export default TicketrDTO

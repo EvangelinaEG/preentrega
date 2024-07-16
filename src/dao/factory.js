@@ -3,23 +3,23 @@ import { connectDB } from '../config/index.js';
 let ProductDao;
 let UserDao;
 let CartDao;
-let OrderDao;
+let ticketDao;
 
 async function initializeDAOs() {
   switch ('MONGO') {
     case 'MONGO':
       await connectDB();
-      const { default: ProductDaoMongo } = await import('./MONGO/productsMongo.manager.js');
-      ProductDao = ProductDaoMongo;
+      const { default: ProductsManagerMongo } = await import('./MONGO/productsMongo.manager.js');
+      ProductDao = ProductsManagerMongo;
 
-      const { default: UserDaoMongo } = await import('./MONGO/usersMongo.manager.js');
-      UserDao = UserDaoMongo;
+      const { default: UsersManagerMongo } = await import('./MONGO/usersMongo.manager.js');
+      UserDao = UsersManagerMongo;
 
-      const { default: OrderDaoMongo } = await import('./MONGO/ordersMongo.manager.js');
-      OrderDao = OrderDaoMongo;
+      const { default: ticketDaoMongo } = await import('./MONGO/ticketMongo.manager.js');
+      ticketDao = ticketDaoMongo;
 
-      const { default: CartDaoMongo } = await import('./MONGO/cartsMongo.manager.js');
-      CartDao = CartDaoMongo;
+      const { default: CartManagerMongo } = await import('./MONGO/cartsMongo.manager.js');
+      CartDao = CartManagerMongo;
       break;
 
     case 'MEMORY':
@@ -42,5 +42,5 @@ export {
   ProductDao,
   UserDao,
   CartDao,
-  OrderDao
+  ticketDao
 };
