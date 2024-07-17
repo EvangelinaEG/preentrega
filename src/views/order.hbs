@@ -24,8 +24,30 @@
                </tr>
             </tbody>
           </table>
-          <h4><i>{{this.mensaje}}</i></h4>
-          <a class="btn btn-primary" href="/products">Volver</a>
           
-     {{/if}}
+          
+          
+      {{/if}}
+      
+      {{#if countCancel}}
+      <h5>Productos que no pudieron ordenarse</h5>
+            <table class="table table-dark table-striped w-25">
+            <thead>
+               <th scope="col" >Producto</th>
+               <th scope="col" >Precio</th>
+               <th scope="col" >Cantidad</th>
+            </thead>
+            <tbody>
+               {{#each canceled}}
+               <tr>
+                  <td>{{ this.product.title }}</td>
+                  <td>{{ this.product.price }}</td>
+                  <td>{{ this.quantity }}</td>
+                  </tr>
+               {{/each}}
+            </tbody>
+          </table>
+      {{/if}}
+      <a class="btn btn-primary" href="/products">Volver</a>
+      <h4><i>{{this.mensaje}}</i></h4>
 </main>

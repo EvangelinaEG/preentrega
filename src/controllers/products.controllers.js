@@ -9,7 +9,6 @@ class ProductController{
         try{
             const {limit, numPage, order, filter } = req.query
 
-            
             const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
 
             res.render('products', {

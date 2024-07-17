@@ -16,6 +16,27 @@ import productsModel from "./models/products.model.js";
         return await this.productsModel.find((product) => product.name === name)
     } 
 
+    async updateStock(pid) {
+        
+        const product = await this.productsModel.findOne({ _id: pid })
+
+        if (!product) {
+            throw new Error('Producto no encontrado')
+        }
+
+        const stock = parseInt(product.stock, 10);
+        let result = false
+        if ( typeof product.stock === 'number' && product.stock > 0) {
+           
+            product.stock -= 1;
+            result = await this.productsModel.updateOne(
+                { _id: pid },
+                { stock: product.stock }
+            );
+        }
+         
+        return result? result.modifiedCount : result;
+    }
      
     async getAll({limit = 4, numPage=1, order = -1, filter = null}) {
     

@@ -24,7 +24,7 @@ viewsrouter.get('/autenticacion', async (req, res) => {
 })
 
 
-viewsrouter.post('/carts', passportCall('jwt'), atuhorization('admin'),async (req, res)=>{     
+viewsrouter.post('/carts', passportCall('jwt'), atuhorization('user'),async (req, res)=>{     
     const  socketServer  = req.socketServer 
     socketServer.on('connection', socket => {
         socket.on('cart', async data => {
@@ -96,7 +96,7 @@ viewsrouter.get('/carts', async (req, res)=>{
    
 })
 
-viewsrouter.get("/carts/delete/:pid", passportCall('jwt'), atuhorization('admin'),async (req, res) => {
+viewsrouter.get("/carts/delete/:pid", passportCall('jwt'), atuhorization('user'),async (req, res) => {
     const {pid} = req.params
     const cartService = new CartManagerMongo()
     const cartFound = await cartService.getAll()
@@ -129,7 +129,7 @@ viewsrouter.get("/carts/delete/:pid", passportCall('jwt'), atuhorization('admin'
     })
 })
 
-viewsrouter.post('/:cid/products/:pid', passportCall('jwt'), atuhorization('admin'),async (req, res)=>{
+viewsrouter.post('/:cid/products/:pid', passportCall('jwt'), atuhorization('user'),async (req, res)=>{
 
     const cartService = new CartManagerMongo()
     const {cid, pid} = req.params
@@ -196,7 +196,7 @@ viewsrouter.get('/products', async (req, res) => {
 })
 
 
-viewsrouter.post('/products', passportCall('jwt'), atuhorization('admin'), async (req, res) => {
+viewsrouter.post('/products', passportCall('jwt'), atuhorization('user'), async (req, res) => {
    
     const productSocket = req.productSocket
     const  socketServer  = req.socketServer 

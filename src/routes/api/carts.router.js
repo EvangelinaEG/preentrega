@@ -15,7 +15,8 @@ const {
 router.get('/',                         getcarts)
 router.post('/',                        createcart)
 router.get('/cart',                     getcart)
-router.post('/:cid/products/:pid',      updatecart)
+//router.post('/:cid/products/:pid',      updatecart)
+router.post('/products/:pid',      updatecart)
 router.get('/delete/:pid',              deletecart)
 router.get('/:cid/purchase',           checkoutCart)
 

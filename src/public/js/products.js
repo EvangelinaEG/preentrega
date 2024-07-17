@@ -23,12 +23,28 @@ $(document).ready(function() {
     }) 
 
 $(".addCart").on("click", function(){
+    console.log("ingreso a add")
     $(this).attr('disabled')
     const pid = $(this).attr("id");
    
-    socket.emit("cart", {
+    /* socket.emit("cart", {
         'pid': pid,
-    })
+    }) */
+
+        $.ajax({
+            url: `/carts/products/${pid}`,
+            type: 'POST', // O 'POST' si necesitas enviar datos al servidor
+            success: function(response) {
+                console.log(response)
+                Swal.fire({
+                    title: 'Atencion',
+                    text: response.msg,
+                    }) 
+            },
+            error: function(error) {
+                console.error('Error:', error);
+            }
+        });
     
 })
 

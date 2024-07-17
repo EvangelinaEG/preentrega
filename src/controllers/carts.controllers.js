@@ -1,4 +1,4 @@
-import { cartService } from "../service/index.js"
+import { cartService, productService } from "../service/index.js"
 
 class cartController{
     constructor(){
@@ -7,7 +7,7 @@ class cartController{
 
     getcarts    = async (req,res) => {
         try{
-            const docs  = await cartService.getCarts()
+            const docs  = await this.cartService.getCarts()
             let sum = 0
             let t = 0
             //console.log(docs[0].products)
@@ -32,7 +32,7 @@ class cartController{
     getcart     =  async (req, res) => {
         try{
             const {cid } = req.params
-            const cart = await cartService.getcartById({ cid })
+            const cart = await this.cartService.getcartById({ cid })
             res.send(cart)
          
         }catch(error){
@@ -41,10 +41,10 @@ class cartController{
     }
     createcart  = async (req, res) => {
         try{
-            const carts = await cartService.getCarts()
+            const carts = await this.cartService.getCarts()
             let cart = {}
             if(carts.length === 0){
-                cart = await cartService.createCart()
+                cart = await this.cartService.createCart()
             }
             res.send(carts)
         }catch(error){
@@ -62,33 +62,75 @@ class cartController{
         }
     }
     updatecart  = async (req, res) => {
+     
         try{
             const {cid, pid} = req.params
-    
-            const result = await cartService.add(cid, pid)
-            res.send(result)
+          
+
+                    const cartFound = await this.cartService.getCarts()
+                
+                
+                   let cart = ''
+                    if( cartFound === null ) {
+                        cart = await this.cartService.createCart()
+                     
+                    }else{
+                        cart = cartFound[0]._id;
+                        
+                    }
+        
+                             
+                    const product = await this.cartService.addProductToCart(cart, pid)
+                 
+                    //products.push(data)
+                    // emitimos los mensajes
+                    let rta = ''
+                    if(Object.values(product).length > 0){
+                        rta  = {"status" : "success", "msg": "producto agregado con exito"}
+                    }else{
+                        rta  = {"status" : "success", "msg": "No se pudo agregar el producto"}
+                    }
+                
+           // const result = await this.cartService.addProductToCart(cid, pid)
+            res.send(rta)
         }catch(error){
             console.log(error)
         }
     } 
     checkoutCart = async (req, res) => {
         const {cid} = req.params
-        const docs  = await cartService.getCarts()
+        const docs  = await this.cartService.getCarts()
+        
+        
         let sum = 0
         let t = 0
+        let purchase = []
+        let canceled = []
+        for (const product of Object.values(docs[0].products)) {
+            const result = await productService.updateProduct(product.product);
+            if (result) {
+                purchase.push(product);
+            } else {
+                canceled.push(product);
+            }
+        }
+        //console.log(purchase)
+        //console.log(canceled)
         //console.log(docs[0].products)
         //sum = Object.values(docs[0].products).forEach(pro => sum + parseFloat(pro.product.price))
         //t = Object.values(docs[0].products).forEach(pro => t + parseInt(pro.quantity))
-        Object.values(docs[0].products).forEach(pro => sum += (parseFloat(pro.product.price) * parseInt(pro.quantity)))
-        Object.values(docs[0].products).forEach(pro => t += parseInt(pro.quantity))
+        Object.values(purchase).forEach(pro => sum += (parseFloat(pro.product.price) * parseInt(pro.quantity)))
+        Object.values(purchase).forEach(pro => t += parseInt(pro.quantity))
 
         res.render('order', {
             cart: docs[0],
-            products: Object.values(docs[0].products),
-            countCart: Object.values(docs[0]).length - 1,
+            products: purchase,
+            countCart: purchase.length,
             counT: t,
             sumT: sum,
-            mensaje:"Su compra fue completada"
+            mensaje:"Su compra fue completada",
+            canceled: canceled,
+            countCancel: canceled.length
         })
     }
   /*   updatecart  = async (req, res) => {
@@ -103,18 +145,18 @@ class cartController{
     deletecart = async (req, res) => {
         try{
             const {pid} = req.params
-            const cartFound = await cartService.getCarts()
+            const cartFound = await this.cartService.getCarts()
             let cart = ''
             if( cartFound === null ) {
-                cart = await cartService.createCarts()
+                cart = await this.cartService.createCarts()
                 
             }else{
                 cart = cartFound[0]._id;
                 
             }
-            const result = await cartService.deleteProductFromCart(cart, pid)
+            const result = await this.cartService.deleteProductFromCart(cart, pid)
   
-            const docs  = await cartService.getCarts()
+            const docs  = await this.cartService.getCarts()
             let sum = 0
             let t = 0
             //console.log(docs[0].products)

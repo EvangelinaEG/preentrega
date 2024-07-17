@@ -32,7 +32,7 @@ class CartRepositories {
 
     async addProductToCart(cid, product){
         try {
-            return await this.cartDao.update(cid, product)
+            return await this.cartDao.add(cid, product)
         } catch (error) {
             return new Error(error)
         }

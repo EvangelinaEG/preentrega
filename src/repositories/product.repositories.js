@@ -26,23 +26,25 @@ class ProductRepositories {
     
     async createProduct(newProduct){
         try {            
-            return await this.dao.create(newProduct)                         
+            return await this.dao.createProduct(newProduct)                         
         } catch (error) {
             return error
         }
     }
 
-    async updateUser(pid, updateProduct){
+    async updateProduct(pid){
         try {
-            return await this.dao.update(pid, updateProduct)
+            const result = await this.dao.updateStock(pid._id)
+            return result
         } catch (error) {
             return error
         }
+       
     } 
 
-    async deleteUser(pid){
+    async deleteProduct(pid){
         try {
-            return await this.dao.remove(pid)
+            return await this.dao.removeProduct(pid)
         } catch (error) {
             return error
         }

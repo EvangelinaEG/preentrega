@@ -15,7 +15,7 @@ const productSchema = new Schema({
     thumbnails: Array,
     code: String,
     stock: {
-        type: String,
+        type: Number,
         index: true
     },
     status: Boolean,

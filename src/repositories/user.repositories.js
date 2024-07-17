@@ -24,7 +24,6 @@ class UserRepositories {
     }
 
     async getById(id){
-        console.log(id)
         try {
             return await  this.dao.getBy(id)   
         } catch (error) {

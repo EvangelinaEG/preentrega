@@ -16,7 +16,7 @@ class CartManagerMongo {
     }
     add = async (cid, pid) => {
         const cart = await this.model.findOne({_id: cid})
-        console.log(cid)
+        console.log(pid)
         // cart.products array -> {prduct: 'kajshfkhsfd', quantity: 5}
         const index = cart.products.findIndex(pro => pro.product.toString() === pid)
         
