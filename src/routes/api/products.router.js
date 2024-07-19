@@ -2,7 +2,7 @@ import { Router } from 'express'
 import ProductController from '../../controllers/products.controllers.js'
 import { passportCall } from '../../utils/passportCall.js'
 import { atuhorization } from '../../utils/authorizationJwt.js'
-import { generateProducts } from '../../utils/generateProductsMock.js'
+import { generateUsers } from '../../utils/generateProductsMock.js'
 
 
 const router = Router()
@@ -24,7 +24,7 @@ router.get("/mockingproducts", (req, res) => {
     let products = []
 
     for(let i=0; i< 100; i++){
-        products.push(generateProducts())
+        products.push(generateUsers())
     }
 
 
