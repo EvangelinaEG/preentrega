@@ -22,7 +22,7 @@ const { port } = objectConfig
 //     return app.use(midd)
 // }
 // appUse(express.json())
-connectDB()
+
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
