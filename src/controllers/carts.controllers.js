@@ -94,10 +94,11 @@ class cartController{
            // const result = await this.cartService.addProductToCart(cid, pid)
             res.send(rta)
         }catch(error){
-           res.send({status: 'Error', error: error.cause})
+            console.log(error)
         }
     } 
-    checkoutCart = async (req, res) => {
+    checkoutCart = async (req, res, next) => {
+        try{
         const {cid} = req.params
         const docs  = await this.cartService.getCarts()
         if( docs.length === 0){
@@ -139,6 +140,9 @@ class cartController{
             canceled: canceled,
             countCancel: canceled.length
         })
+    }catch{
+            next(error)
+        }
     }
   /*   updatecart  = async (req, res) => {
         try{

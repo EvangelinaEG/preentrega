@@ -10,6 +10,8 @@ import { initializePassport } from './config/passport.config.js'
 import { connectDB, objectConfig } from './config/index.js'
 import routerApp from './routes/index.js'
 //import { sendMessage } from './utils/sendMessage.js'
+import handleErrors from './middlewares/errors/index.js'
+
 import cors from 'cors'
 // passport 
 
@@ -43,6 +45,7 @@ app.set('views', __dirname+'/views')
 app.set('view engine', 'hbs')
 
 app.use(routerApp)
+app.use(handleErrors)
 
 // Guardar en una cont
 httpServer.listen(port, error => {

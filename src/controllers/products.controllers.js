@@ -40,7 +40,7 @@ class ProductController{
             console.log(error)
         }
     }
-    createproduct  = async (req, res) => {
+    createproduct  = async (req, res, next) => {
         try{
             const { body } = req
             if( !body.title || !body.code || !body.price || !body.description ){
@@ -60,7 +60,7 @@ class ProductController{
             const result = await this.productService.createProduct(body)
             res.send({status: 'success', data: result})
         }catch(error){
-            res.send({status: 'Error', error: error.cause})
+            next(error)
         }
   }
 
@@ -73,7 +73,7 @@ class ProductController{
         console.log(error)
     }
 }
-updateproduct  = async (req, res) => {
+updateproduct  = async (req, res, next) => {
     try{
         const { body } = req
         /* const  socketServer  = req.socketServer 
@@ -93,7 +93,7 @@ updateproduct  = async (req, res) => {
         const result = await this.productService.create(body)
         res.send({status: 'success', data: result})
     }catch(error){
-        console.log(error)
+        next(error)
     }
 } 
   /*   updateproduct  = async (req, res) => {
