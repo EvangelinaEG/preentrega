@@ -60,7 +60,7 @@ class ProductController{
             const result = await this.productService.createProduct(body)
             res.send({status: 'success', data: result})
         }catch(error){
-            console.log(error)
+            res.send({status: 'Error', error: error.cause})
         }
   }
 

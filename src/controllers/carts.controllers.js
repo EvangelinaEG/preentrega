@@ -94,7 +94,7 @@ class cartController{
            // const result = await this.cartService.addProductToCart(cid, pid)
             res.send(rta)
         }catch(error){
-            console.log(error)
+           res.send({status: 'Error', error: error.cause})
         }
     } 
     checkoutCart = async (req, res) => {
