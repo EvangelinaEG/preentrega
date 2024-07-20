@@ -1,3 +1,6 @@
+import { CustomError } from "../service/errors/customerErrors.js"
+import { EError } from "../service/errors/enum.js"
+import { generateProductError } from "../service/errors/info.js"
 import { productService } from "../service/index.js"
 
 class ProductController{
@@ -39,12 +42,21 @@ class ProductController{
     }
     createproduct  = async (req, res) => {
         try{
-            const  socketServer  = req.socketServer 
+            const { body } = req
+            if( !body.title || !body.code || !body.price || !body.description ){
+                CustomError.createError({
+                    name: 'Error al crear un producto',
+                    casuse: generateProductError(body.title, body.code, body.price, body.description),
+                    message: 'Error al crear el producto',
+                    code: EError.INVALID_TYPES_ERROR
+                })
+            }
+           /*  const  socketServer  = req.socketServer 
             const messages = []
             socketServer.on('connection', socket => {
                 alert('Cliente conectado post')
             
-            })
+            }) */
             const result = await this.productService.createProduct(body)
             res.send({status: 'success', data: result})
         }catch(error){
@@ -63,12 +75,21 @@ class ProductController{
 }
 updateproduct  = async (req, res) => {
     try{
-        const  socketServer  = req.socketServer 
+        const { body } = req
+        /* const  socketServer  = req.socketServer 
         const messages = []
         socketServer.on('connection', socket => {
             alert('Cliente conectado post')
         
-        })
+        }) */
+        if( !body.title || !body.code || !body.price || !body.description ){
+            CustomError.createError({
+                name: 'Error al actualizar un producto',
+                casuse: generateProductError(body.title, body.code, body.price, body.description),
+                message: 'Error al actualizar el producto',
+                code: EError.INVALID_TYPES_ERROR
+            })
+        }
         const result = await this.productService.create(body)
         res.send({status: 'success', data: result})
     }catch(error){

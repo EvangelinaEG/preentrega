@@ -100,7 +100,14 @@ class cartController{
     checkoutCart = async (req, res) => {
         const {cid} = req.params
         const docs  = await this.cartService.getCarts()
-        
+        if( docs.length === 0){
+            CustomError.createError({
+                name: 'Error al generar el ticket',
+                casuse: generateCartError(docs),
+                message: 'Error al generar el ticket',
+                code: EError.INVALID_TYPES_ERROR
+            })
+        }
         
         let sum = 0
         let t = 0
