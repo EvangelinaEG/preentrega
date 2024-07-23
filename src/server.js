@@ -13,6 +13,8 @@ import routerApp from './routes/index.js'
 import handleErrors from './middlewares/errors/index.js'
 
 import cors from 'cors'
+import { addDevLogger } from './utils/devLogger.js'
+import { addProdLogger } from './utils/prodLogger.js'
 // passport 
 
 const app = express()
@@ -43,7 +45,8 @@ app.engine('hbs', handlebars.engine({
 }))
 app.set('views', __dirname+'/views')
 app.set('view engine', 'hbs')
-
+app.use(addDevLogger)
+app.use(addProdLogger)
 app.use(routerApp)
 app.use(handleErrors)
 

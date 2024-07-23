@@ -31,6 +31,7 @@ sessionsRouter.post('/login', login)
 sessionsRouter.get('/logout', logout)
 
 
+
 sessionsRouter.get('/current', passportCall('jwt'), atuhorization('user','admin'), currentUser)
 
 export default sessionsRouter

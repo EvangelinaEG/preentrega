@@ -7,9 +7,13 @@ import { atuhorization } from '../utils/authorizationJwt.js'
 
 const viewsrouter = Router()
 
+
+
 viewsrouter.get('/', async (req, res) => {
     res.redirect('login')
 })
+
+
 
 viewsrouter.get('/logout', async (req, res) => {
     res.redirect('api/sessions/logout')
@@ -291,6 +295,7 @@ viewsrouter.get('/chat',passportCall('jwt'), atuhorization('user'), (req, res) =
 
    
 })
+
 
 
 export default viewsrouter

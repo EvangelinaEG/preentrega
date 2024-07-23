@@ -19,13 +19,16 @@ router.use('/api/sessions', sessionsRouter)
 router.use('/users', usersRouter)
 router.use('/carts', cartsRouter)
 router.use('/', productsRouter)
+router.get('/loggerTest', async (req, res) => {
+    req.logger.warning("Alerta!");
+    res.send('logs');
+});
 
 
-
-router.use((error, req, res, next) => {
+/* router.use((error, req, res, next) => {
     console.log(error)
     res.status(500).send('Error 500 en el server')
-})
+}) */
 
 
 
