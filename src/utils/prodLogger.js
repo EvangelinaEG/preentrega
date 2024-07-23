@@ -49,6 +49,21 @@ const logger = winston.createLogger({
 
 export const addProdLogger = (req, res, next) => {
     req.logger = logger;
-    req.logger.warning(`${req.method} en ${req.url} - ${new Date().toLocaleString()}`);
+    const message = `${req.method} en ${req.url} - ${new Date().toLocaleString()}`;
+
+    req.logger.debug(message);  
+
+    if (req.url.includes('error')) {
+        req.logger.error(message);
+    } else if (req.url.includes('warn')) {
+        req.logger.warning(message);
+    } else if (req.url.includes('info')) {
+        req.logger.info(message);
+    } else if (req.url.includes('debug')) {
+        req.logger.http(message);
+    } else if (req.url.includes('fatal')) {
+        req.logger.fatal(message);
+    }
+
     next();
 };

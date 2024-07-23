@@ -20,7 +20,12 @@ router.use('/users', usersRouter)
 router.use('/carts', cartsRouter)
 router.use('/', productsRouter)
 router.get('/loggerTest', async (req, res) => {
+    req.logger.fatal("Fatal Error!");
+    req.logger.error("Error!");
     req.logger.warning("Alerta!");
+    req.logger.info("Info!");
+    req.logger.debug("debug!");
+    req.logger.http("http!");
     res.send('logs');
 });
 
