@@ -13,7 +13,7 @@ class SessionsController{
 
     
 
-    register = async (req, res) => {
+    register = async (req, res, next) => {
         try {
             const { first_name, last_name, email, password } = req.body
             
@@ -41,11 +41,12 @@ class SessionsController{
             res.send({status: 'success', token})
             
         } catch (error) {
-            console.log(error)
+            next(error); 
         }
     }
 
-    login = async  (req, res) => {
+    login = async  (req, res, next) => {
+        try{
         const {email, password} = req.body
     
         // validar si vienen los datos
@@ -76,17 +77,20 @@ class SessionsController{
                 maxAge: 60*60*1000*24,
                 httpOnly: true
             }).redirect("/products")
+        }catch(error){
+            next(error); 
+        }
             
     }
     
-    logout = async (req, res) => {
+    logout = async (req, res, next) => {
         try{
             res.cookie('token', "", {
                 maxAge: -1,
                 httpOnly: true
             }).redirect("/login")
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     }
 

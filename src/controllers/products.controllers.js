@@ -8,7 +8,7 @@ class ProductController{
         this.productService = productService
     }
 
-    getproducts    = async (req,res) => {
+    getproducts    = async (req,res, next) => {
         try{
             const {limit, numPage, order, filter } = req.query
 
@@ -28,16 +28,16 @@ class ProductController{
                
            })
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     } 
-    getproduct     =  async (req, res) => {
+    getproduct     =  async (req, res, next) => {
         try{
             const { uid } = req.params
             const productFound = await this.productService.getProduct({_id: uid})
             res.send({status: 'success', payload: productFound})
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     }
     createproduct  = async (req, res, next) => {
@@ -64,13 +64,13 @@ class ProductController{
         }
   }
 
-  getProductById     =  async (req, res) => {
+  getProductById     =  async (req, res, next) => {
     try{
         const { pid } = req.params
         const productFound = await this.productService.getBy(pid)
         res.send({status: 'success', payload: productFound})
     }catch(error){
-        console.log(error)
+        next(error); 
     }
 }
 updateproduct  = async (req, res, next) => {
@@ -105,12 +105,12 @@ updateproduct  = async (req, res, next) => {
             console.log(error)
         }
     } */
-    deleteproduct = async (req, res) => {
+    deleteproduct = async (req, res, next) => {
         try{
             const result = await this.productService.delete({ _id: pid });
             res.send({status: 'success', data: result})
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     }
 

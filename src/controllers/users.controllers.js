@@ -5,15 +5,15 @@ class UserController{
     constructor(){
         this.userService = userService
     }
-    getUsers    = async (req,res) => {
+    getUsers    = async (req,res, next) => {
         try{
             const users = await this.userService.getUsers()
             res.send(users) 
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     } 
-    getUser     =  async (req, res) => {
+    getUser     =  async (req, res, next) => {
         
         try{
             const { uid } = req.params
@@ -21,10 +21,10 @@ class UserController{
             res.send({status: 'success', payload: userFound})
             
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     }
-    createUser  = async (req, res) => {
+    createUser  = async (req, res, next) => {
         try{
                 
             const { first_name, last_name, email} = req.body
@@ -42,7 +42,7 @@ class UserController{
             // validar el result
             res.status(200).send({ status: 'success', payload: result })
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     }
     updateUser  = (req, res) => {

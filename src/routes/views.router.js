@@ -100,7 +100,8 @@ viewsrouter.get('/carts', async (req, res)=>{
    
 })
 
-viewsrouter.get("/carts/delete/:pid", passportCall('jwt'), atuhorization('user'),async (req, res) => {
+viewsrouter.get("/carts/delete/:pid", passportCall('jwt'), atuhorization('user'),async (req, res, next) => {
+    try{
     const {pid} = req.params
     const cartService = new CartManagerMongo()
     const cartFound = await cartService.getAll()
@@ -130,21 +131,27 @@ viewsrouter.get("/carts/delete/:pid", passportCall('jwt'), atuhorization('user')
         counT: t,
         sumT: sum,
       /*     */
-    })
+        })
+    }catch(error){
+        next(error); 
+    }
 })
 
-viewsrouter.post('/:cid/products/:pid', passportCall('jwt'), atuhorization('user'),async (req, res)=>{
-
+viewsrouter.post('/:cid/products/:pid', passportCall('jwt'), atuhorization('user'),async (req, res, next)=>{
+    try{
     const cartService = new CartManagerMongo()
     const {cid, pid} = req.params
 
     const result = await cartService.add(cid, pid)
     res.send(result)
+    }catch(error){
+        next(error); 
+    }
 })
 
  
-viewsrouter.get('/products', async (req, res) => {
-    
+viewsrouter.get('/products', async (req, res, next) => {
+    try{
     const {limit, numPage, order, filter } = req.query
 
     const productService = new ProductsManagerMongo()
@@ -196,12 +203,14 @@ viewsrouter.get('/products', async (req, res) => {
         filter: filter === null || filter === "" || typeof filter === "undefined"? null : filter,
         
     })
-
+    }catch(error){
+        next(error); 
+    }   
 })
 
 
-viewsrouter.post('/products', passportCall('jwt'), atuhorization('user'), async (req, res) => {
-   
+viewsrouter.post('/products', passportCall('jwt'), atuhorization('user'), async (req, res, next) => {
+   try{
     const productSocket = req.productSocket
     const  socketServer  = req.socketServer 
     const products = []
@@ -245,9 +254,13 @@ viewsrouter.post('/products', passportCall('jwt'), atuhorization('user'), async 
             prevPage,
             rta
     })
+    }catch(error){
+        next(error); 
+    }
 })
 
-viewsrouter.get('/users', passportCall('jwt'), atuhorization('user'), async (req, res) => {
+viewsrouter.get('/users', passportCall('jwt'), atuhorization('user'), async (req, res, next) => {
+    try{
     const {numPage, limit} = req.query
    
     const userService = new UsersManagerMongo()
@@ -262,9 +275,13 @@ viewsrouter.get('/users', passportCall('jwt'), atuhorization('user'), async (req
         nextPage,
         prevPage
     })
+    }catch(error){
+        next(error); 
+    }
 })
 
-viewsrouter.get('/chat',passportCall('jwt'), atuhorization('user'), (req, res) => {
+viewsrouter.get('/chat',passportCall('jwt'), atuhorization('user'), (req, res, next) => {
+    try{
     const { socketServer } = req
 
     socketServer.on('connection', socket => {
@@ -292,7 +309,9 @@ viewsrouter.get('/chat',passportCall('jwt'), atuhorization('user'), (req, res) =
             socketServer.emit('messages_server', messages)
         })
     })
-
+    }catch(error){
+        next(error); 
+    }
    
 })
 

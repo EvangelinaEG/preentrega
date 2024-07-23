@@ -5,7 +5,7 @@ class cartController{
         this.cartService = cartService
     }
 
-    getcarts    = async (req,res) => {
+    getcarts    = async (req,res, next) => {
         try{
             const docs  = await this.cartService.getCarts()
             let sum = 0
@@ -26,20 +26,20 @@ class cartController{
             })
             
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     } 
-    getcart     =  async (req, res) => {
+    getcart     =  async (req, res, next) => {
         try{
             const {cid } = req.params
             const cart = await this.cartService.getcartById({ cid })
             res.send(cart)
          
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     }
-    createcart  = async (req, res) => {
+    createcart  = async (req, res, next) => {
         try{
             const carts = await this.cartService.getCarts()
             let cart = {}
@@ -48,20 +48,20 @@ class cartController{
             }
             res.send(carts)
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     }
 
-    getcartById     =  async (req, res) => {
+    getcartById     =  async (req, res, next) => {
         try{
             const { uid } = req.params
             const cartFound = await this.cartService.getBy({_id: uid})
             res.send({status: 'success', payload: cartFound})
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     }
-    updatecart  = async (req, res) => {
+    updatecart  = async (req, res, next) => {
      
         try{
             const {cid, pid} = req.params
@@ -94,7 +94,7 @@ class cartController{
            // const result = await this.cartService.addProductToCart(cid, pid)
             res.send(rta)
         }catch(error){
-            console.log(error)
+            next(error); 
         }
     } 
     checkoutCart = async (req, res, next) => {
@@ -153,7 +153,7 @@ class cartController{
             console.log(error)
         }
     } */
-    deletecart = async (req, res) => {
+    deletecart = async (req, res, next) => {
         try{
             const {pid} = req.params
             const cartFound = await this.cartService.getCarts()
@@ -185,7 +185,7 @@ class cartController{
             /*     */
             })
                 }catch(error){
-                    console.log(error)
+                    next(error); 
                 }
             }
 
