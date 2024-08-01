@@ -28,12 +28,12 @@ class UsersManagerMongo {
     }  
 
     update = async (updUser) => {
-      let exist = this.userModel.findById({ _id: updUser.id })
-      console.log(exist)
-      if(exist){
-        return await this.userModel.update({password: updUser.password})
-      }
-      
+    
+      return await this.userModel.updateOne(
+        { _id: updUser.id }, 
+        { $set: { password: updUser.password } } 
+      );
+    
     }
   
   }

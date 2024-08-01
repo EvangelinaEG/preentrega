@@ -104,6 +104,10 @@ class SessionsController{
         try {
             const { password, repassword } = req.body;
             
+            if (password === '' || repassword === '') {
+                return res.status(400).send({ status: 'error', error: 'Las contraseñas no pueden nulas' });
+            }
+
             if (password !== repassword) {
                 return res.status(400).send({ status: 'error', error: 'Las contraseñas no coinciden' });
             }
@@ -126,7 +130,7 @@ class SessionsController{
             
             const updUser = {
                 id: decoded.id,
-                password: password
+                password: createhash(password) 
             };
             const result = await this.userService.updateUser(updUser);
            

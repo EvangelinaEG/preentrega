@@ -63,3 +63,6 @@ error: jwt is not defined - POST en /api/sessions/restart - 29/7/2024, 12:14:23 
 error: userFound is not defined - POST en /api/sessions/restart - 29/7/2024, 12:26:00 a.m.
 error: UserDao is not defined - POST en /api/sessions/restart - 29/7/2024, 12:55:07 a.m.
 error: Cannot set headers after they are sent to the client - POST en /api/sessions/restart - 29/7/2024, 12:56:11 a.m.
+error: Error actualizando el usuario: UserDto is not defined - POST en /api/sessions/restart - 1/8/2024, 11:50:35 a.m.
+error: Error actualizando el usuario: UserDto is not defined - POST en /api/sessions/restart - 1/8/2024, 11:51:51 a.m.
+error: Error actualizando el usuario: Cannot read properties of undefined (reading 'updateOne') - POST en /api/sessions/restart - 1/8/2024, 2:38:03 p.m.
