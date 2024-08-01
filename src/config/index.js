@@ -14,7 +14,9 @@ export const objectConfig = {
    port : process.env.PORT || 8080,
    mongo : process.env.MONGO,
    private_key: process.env.PRIVATE_KEY,
-   persistence: process.env.PERSISTENCE
+   persistence: process.env.PERSISTENCE,
+   gmail_pass: process.env.GMAIL_PASS,
+   gmail_user: process.env.GMAIL_USER
 }
 
 export const connectDB = async () => {

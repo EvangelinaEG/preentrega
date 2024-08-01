@@ -16,8 +16,12 @@ const {
     logout,
     currentUser,
     autorizacion,
-    autenticacion
+    autenticacion,
+    resetPass,
+    resetPassword,
+    restPassword
 } = new SessionsController()
+
 
 sessionsRouter.get('/github', passport.authenticate('github', {scope: 'user:email'}), async (req, res)=>{})
 sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/login'}), (req,res) =>{
@@ -26,6 +30,10 @@ sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRe
 })
 sessionsRouter.post('/register', register)
 sessionsRouter.post('/login', login)
+sessionsRouter.post('/resetPass', resetPassword)
+sessionsRouter.get('/reset_password', resetPass)
+sessionsRouter.post("/restart", restPassword)
+
 
  //sessionssessionsRouter.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
 sessionsRouter.get('/logout', logout)

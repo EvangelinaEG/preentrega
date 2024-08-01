@@ -4,7 +4,7 @@ import cartsRouter from './api/carts.router.js'
 import viewsRouter from './views.router.js'
 import usersRouter from './api/users.router.js'
 import  sessionsRouter  from "./api/sessions.router.js"
-
+import sendEmail from '../utils/sendEmail.js'; 
 
 const router = Router()
 //router.use('/', viewsRouter)
@@ -13,6 +13,37 @@ router.get('/login', (req, res) => {
 })
 router.get('/register', (req, res) => {
     res.render('register')
+})
+
+router.post("/resetPass", (req, res) => {
+    try{
+    const {email, reemail} = req.body
+    if(email === reemail){
+        let html = '</h6><a href="http://localhost:3000/restart" target="_blank">Clic aqui para Reestablecer clave</a>'
+        sendEmail({userEmail: email, subject: "Reestablecer clave", html })
+    }
+    res.render("login")
+    }catch(error){
+        console.log(error)
+    }
+})
+
+router.get("/restart", (req, res) => {
+    try{
+        res.render("restart")
+    }
+    catch(error){
+        console.log(error)
+    }
+})
+
+router.get("/sendEmail", (req, res) => {
+    try{
+        res.render("sendEmail")
+    }
+    catch(error){
+        console.log(error)
+    }
 })
 
 router.use('/api/sessions', sessionsRouter) 

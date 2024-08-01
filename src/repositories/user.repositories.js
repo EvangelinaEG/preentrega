@@ -41,7 +41,14 @@ class UserRepositories {
     }
     
 
-    async updateUser(){}    
+    async updateUser(user){
+        try {
+            const updUser = new UserDto(user)
+            return await  this.dao.update(updUser)       
+        } catch (error) {
+            return error
+        }
+    }    
     async deleteUser(){}    
 }
 

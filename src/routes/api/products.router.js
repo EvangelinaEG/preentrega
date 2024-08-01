@@ -16,10 +16,10 @@ const {
 } = new ProductController()
 
 router.get('/products',  getproducts)
-router.post('/products', passportCall('jwt'), atuhorization('admin'), createproduct)
+router.post('/products', passportCall('jwt'), atuhorization('admin', 'premium'), createproduct)
 router.get('/products/:pid', passportCall('jwt'), atuhorization('user'), getProductById)
-router.put('/products/:pid', passportCall('jwt'), atuhorization('admin'), updateproduct)
-router.delete('products/:pid', passportCall('jwt'), atuhorization('admin'), deleteproduct)
+router.put('/products/:pid', passportCall('jwt'), atuhorization('admin', 'premium'), updateproduct)
+router.delete('products/:pid', passportCall('jwt'), atuhorization('admin', 'premium'), deleteproduct)
 router.get("/mockingproducts", (req, res) => {
     let products = []
 

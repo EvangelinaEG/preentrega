@@ -19,6 +19,7 @@ const productSchema = new Schema({
         index: true
     },
     status: Boolean,
+    owner: String,
     category: {
         type: String,
         index: true

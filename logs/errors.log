@@ -51,3 +51,15 @@ warning: Alerta!
 fatal: Fatal Error!
 error: Error!
 warning: Alerta!
+error: html is not defined - POST en /resetPass - 28/7/2024, 3:52:17 a.m.
+error: sendEmail is not defined - POST en /resetPass - 28/7/2024, 3:52:38 a.m.
+error: sendEmail is not defined - POST en /resetPass - 28/7/2024, 3:53:07 a.m.
+error: restart_token is not defined - POST en /api/sessions/restart - 28/7/2024, 8:42:49 p.m.
+error: restart_token is not defined - POST en /api/sessions/restart - 28/7/2024, 8:43:32 p.m.
+error: restart_token is not defined - POST en /api/sessions/restart - 28/7/2024, 8:49:42 p.m.
+error: restart_token is not defined - POST en /api/sessions/restart - 28/7/2024, 8:51:28 p.m.
+error: restart_token is not defined - POST en /api/sessions/restart - 28/7/2024, 9:02:05 p.m.
+error: jwt is not defined - POST en /api/sessions/restart - 29/7/2024, 12:14:23 a.m.
+error: userFound is not defined - POST en /api/sessions/restart - 29/7/2024, 12:26:00 a.m.
+error: UserDao is not defined - POST en /api/sessions/restart - 29/7/2024, 12:55:07 a.m.
+error: Cannot set headers after they are sent to the client - POST en /api/sessions/restart - 29/7/2024, 12:56:11 a.m.

@@ -1,0 +1,14 @@
+<main class="container">
+    <h1>Reestablecer Contraseña</h1>
+    <form action="/api/sessions/resetPass" method="POST" class="form-group w-50">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control">
+         <label>Reescriba su Email</label>
+        <input type="email" name="reemail" class="form-control">
+        <button class=" btn btn-outline-dark w-100 mt-3">Reestablecer</button>
+    </form>
+     
+   {{!--  <div>
+        <a class="btn btn-dark mt-5" href="/api/sessions/github">Github</a>
+    </div> --}}
+</main>

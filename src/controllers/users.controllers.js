@@ -45,8 +45,15 @@ class UserController{
             next(error); 
         }
     }
-    updateUser  = (req, res) => {
-        res.send('update User')
+    updateUser  = async (req, res) => {
+        try{
+            if(!email) return res.send({status: 'error', error: 'faltan campos'})
+            const result = await this.userService.updateUser(req.body)
+            // validar el result
+            res.status(200).send({ status: 'success', payload: result })
+        }catch(error){
+            next(error); 
+        }
     }
     deleteUser = (req, res) => {
         res.send('delete User')

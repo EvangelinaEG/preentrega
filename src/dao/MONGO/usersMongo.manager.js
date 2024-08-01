@@ -26,6 +26,15 @@ class UsersManagerMongo {
     getUserByEmail = async (email) => {
       return await this.userModel.findOne({email:email.email})
     }  
+
+    update = async (updUser) => {
+      let exist = this.userModel.findById({ _id: updUser.id })
+      console.log(exist)
+      if(exist){
+        return await this.userModel.update({password: updUser.password})
+      }
+      
+    }
   
   }
 
