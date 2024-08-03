@@ -45,13 +45,33 @@ class UserRepositories {
         try {
             
             const result = await this.dao.update(user)
-            console.log(result)
+          
             return result;
         } catch (error) {
             console.error("Error actualizando el usuario:", error)
             throw new Error("Error actualizando el usuario: " + error.message);
         }
     }    
+    async updateRole(uid) {
+        try {
+        
+            // Obtener el usuario por su uid
+            let user = await this.dao.getBy(uid);
+            
+            if (!user) {
+                throw new Error("Usuario no encontrado");
+            }
+            
+            // Actualizar el rol del usuario a "premium"
+            const result = await this.dao.updateRole(user);
+            
+            return result;
+        } catch (error) {
+            console.error("Error actualizando el usuario:", error);
+            throw new Error("Error actualizando el usuario: " + error.message);
+        }
+    }
+      
     async deleteUser(){}    
 }
 

@@ -58,7 +58,7 @@ viewsrouter.post('/carts', passportCall('jwt'), atuhorization('user'),async (req
             }else{
                 rta  = {"status" : "success", "msg": "No se pudo agregar el producto"}
             }
-            console.log(rta)
+           
             socketServer.emit('messageLogs', rta)
         })
     })
@@ -168,8 +168,7 @@ viewsrouter.get('/products', async (req, res, next) => {
             if(data.title === '' || data.description === '' || data.price === '' || data.code === '' || data.stock === '' || data.status === '' || data.category === ''){
                 rta = {"status" : "error", "msg":'Todos los campos son obligatorios, corrobore'}
             }
-            console.log(docs)
-            
+           
             const productFound = await docs.findIndex(pro => pro.code === data.code)
            
             if( productFound !== -1 ) {
@@ -215,6 +214,7 @@ viewsrouter.post('/products', passportCall('jwt'), atuhorization('user'), async 
     const  socketServer  = req.socketServer 
     const products = []
     let rta = ''
+    
     const productService = new ProductsManagerMongo()
     const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getAll(4,1, -1, null)
     socketServer.on('connection', socket => {
@@ -224,8 +224,7 @@ viewsrouter.post('/products', passportCall('jwt'), atuhorization('user'), async 
             if(data.title === '' || data.description === '' || data.price === '' || data.code === '' || data.stock === '' || data.status === '' || data.category === ''){
                 rta = {"status" : "error", "msg":'Todos los campos son obligatorios, corrobore'}
             }
-            console.log(docs)
-            
+           
             const productFound = await docs.findIndex(pro => pro.code === data.code)
            
             if( productFound !== -1 ) {

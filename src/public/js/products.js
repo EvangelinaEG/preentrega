@@ -35,7 +35,7 @@ $(".addCart").on("click", function(){
             url: `/carts/products/${pid}`,
             type: 'POST', // O 'POST' si necesitas enviar datos al servidor
             success: function(response) {
-                console.log(response)
+                //console.log(response)
                 Swal.fire({
                     title: 'Atencion',
                     text: response.msg,
@@ -100,8 +100,24 @@ form.addEventListener("submit", (event) =>{
         })
         
     }else{
+        let productData = {
+            "product": {
+                'title': title,
+                'description': description,
+                'price': price,
+                'thumbnails': thumbs,
+                'code': code,
+                'stock': stock,
+                'status': status,
+                'category': category
+            }
+        };
+        let products = fetch('/products', {method:"POST", body: JSON.stringify(productData)})
+        .then((response) =>  console.log("la rta es"+response)  )
+        .catch((error) => console.log(error))
+      
      
-        socket.emit("product", {
+        /* socket.emit("product", {
             'title': title,
             'description': description,
             'price': price,
@@ -110,14 +126,14 @@ form.addEventListener("submit", (event) =>{
             'stock': stock,
             'status': status,
             'category': category
-        })
+        }) */
     }
 })
 
 form.reset()
 
 socket.on("messageLogs", data =>{
-    console.log(data)
+    
      if(data.length !== 0){
     
             Swal.fire({

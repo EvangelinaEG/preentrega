@@ -54,7 +54,21 @@ class UserController{
             next(error); 
         }
     }
-    
+    updateRole  = async (req, res, next) => {
+        try{
+            
+            if(!req.params.uid) return res.send({status: 'error', error: 'faltan campos'})
+            const result = await this.userService.updateRole(req.params.uid)
+            if (result.acknowledged && result.modifiedCount > 0) {
+                return { status: "success", payload: result };
+            } else {
+                throw new Error("La actualización no se realizó");
+            }
+            res.status(200).send({ status: 'success', payload: result })
+        }catch(error){
+            next(error); 
+        }
+    }
     deleteUser = (req, res) => {
         res.send('delete User')
     }

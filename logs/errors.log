@@ -66,3 +66,6 @@ error: Cannot set headers after they are sent to the client - POST en /api/sessi
 error: Error actualizando el usuario: UserDto is not defined - POST en /api/sessions/restart - 1/8/2024, 11:50:35 a.m.
 error: Error actualizando el usuario: UserDto is not defined - POST en /api/sessions/restart - 1/8/2024, 11:51:51 a.m.
 error: Error actualizando el usuario: Cannot read properties of undefined (reading 'updateOne') - POST en /api/sessions/restart - 1/8/2024, 2:38:03 p.m.
+error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 3/8/2024, 2:01:18 a.m.
+error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 3/8/2024, 2:05:36 a.m.
+error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 3/8/2024, 2:10:13 a.m.

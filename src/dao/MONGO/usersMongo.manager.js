@@ -35,6 +35,14 @@ class UsersManagerMongo {
       );
     
     }
+    updateRole = async (user) => {
+    
+      return await this.userModel.updateOne(
+        { _id: user._id }, 
+        { $set: { role: "premium" } } 
+      );
+    
+    }
   
   }
 
