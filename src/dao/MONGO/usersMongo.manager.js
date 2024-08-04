@@ -43,6 +43,24 @@ class UsersManagerMongo {
       );
     
     }
+
+    updateRole = async (user) => {
+      
+      const currentUser = await this.userModel.findOne({ _id: user._id });
+    console.log(currentUser)
+      if (!currentUser) {
+        throw new Error("Usuario no encontrado");
+      }
+    
+      const newRole = currentUser.role === "admin" ? "premium" : 
+                      currentUser.role === "premium" ? "admin" : 
+                      currentUser.role; 
+                      console.log(newRole)
+      return await this.userModel.updateOne(
+        { _id: user._id }, 
+        { $set: { role: newRole } }
+      );
+    };
   
   }
 

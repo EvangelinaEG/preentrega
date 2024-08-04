@@ -69,3 +69,6 @@ error: Error actualizando el usuario: Cannot read properties of undefined (readi
 error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 3/8/2024, 2:01:18 a.m.
 error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 3/8/2024, 2:05:36 a.m.
 error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 3/8/2024, 2:10:13 a.m.
+error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 3/8/2024, 2:12:28 a.m.
+error: product is not defined - POST en /products - 3/8/2024, 2:15:48 a.m.
+error: product is not defined - POST en /products - 3/8/2024, 2:15:48 a.m.
