@@ -72,3 +72,66 @@ error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58c
 error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 3/8/2024, 2:12:28 a.m.
 error: product is not defined - POST en /products - 3/8/2024, 2:15:48 a.m.
 error: product is not defined - POST en /products - 3/8/2024, 2:15:48 a.m.
+error: product is not defined - POST en /products - 3/8/2024, 11:30:01 p.m.
+error: product is not defined - POST en /products - 3/8/2024, 11:30:01 p.m.
+error: product is not defined - POST en /products - 3/8/2024, 11:47:31 p.m.
+error: product is not defined - POST en /products - 3/8/2024, 11:47:31 p.m.
+error: product is not defined - POST en /products - 3/8/2024, 11:49:31 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:12:51 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:12:51 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:14:05 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:14:28 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:14:28 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:17:16 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:17:16 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:20:23 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:20:23 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:24:29 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 12:24:29 a.m.
+error: product is not defined - POST en /products - 4/8/2024, 2:37:57 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 2:37:57 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 2:39:42 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 3:07:01 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 3:54:47 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 4:13:01 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 4:30:27 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 4:32:21 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 5:10:12 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 7:19:10 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:35:19 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:35:19 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:35:58 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:35:58 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:37:00 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:37:00 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:38:27 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:38:27 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:50:20 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:50:20 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:52:54 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:52:54 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:54:17 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:54:17 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:56:11 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:56:11 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:58:18 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:58:18 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 8:59:10 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 8:59:10 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 9:00:15 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:00:15 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 9:01:26 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:01:26 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 9:02:06 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:02:07 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 9:02:07 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:02:07 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 9:06:25 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:06:25 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 9:09:17 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:09:17 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 9:19:48 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:19:48 p.m.
+error: this.productService.create is not a function - POST en /products - 4/8/2024, 9:21:35 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:21:35 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:25:38 p.m.

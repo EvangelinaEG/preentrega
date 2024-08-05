@@ -9,6 +9,32 @@ $(document).ready(function() {
     .catch((error) => console.log(error))
   
     
+    $('#producto').on('submit', function(event) {
+        event.preventDefault(); // Prevenir el envío predeterminado del formulario
+    
+        // Captura los datos del formulario
+        const data = $(this).serializeArray().reduce((obj, item) => {
+          obj[item.name] = item.value;
+          return obj;
+        }, {});
+    
+        // Realiza la petición AJAX
+        $.ajax({
+          url: '/products',
+          method: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(data),
+          success: function(response) {
+            $('#message').text('Producto creado correctamente');
+          },
+          error: function(xhr, status, error) {
+            $('#message').text('No se pudo crear el producto');
+            console.error('Error:', error);
+          }
+        });
+      });
+      
+      
 
     $("#filter").change(function(){
         $("#order").css("display", "block")

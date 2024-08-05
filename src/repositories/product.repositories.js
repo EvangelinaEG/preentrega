@@ -25,8 +25,9 @@ class ProductRepositories {
     }
     
     async createProduct(newProduct){
+       
         try {            
-            return await this.dao.createProduct(newProduct)                         
+            return await this.dao.create(newProduct)                         
         } catch (error) {
             return error
         }

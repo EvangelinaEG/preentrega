@@ -153,7 +153,7 @@ viewsrouter.post('/:cid/products/:pid', passportCall('jwt'), atuhorization('user
 viewsrouter.get('/products', async (req, res, next) => {
     try{
     const {limit, numPage, order, filter } = req.query
-
+       
     const productService = new ProductsManagerMongo()
     const productSocket = req.productSocket
     const  socketServer  = req.socketServer 
@@ -210,6 +210,7 @@ viewsrouter.get('/products', async (req, res, next) => {
 
 viewsrouter.post('/products', passportCall('jwt'), atuhorization('user'), async (req, res, next) => {
    try{
+    console.log("entro por aca ahora")
     const productSocket = req.productSocket
     const  socketServer  = req.socketServer 
     const products = []

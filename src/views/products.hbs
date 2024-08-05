@@ -5,7 +5,7 @@
       {{/if}}
     <h1>Gestor de productos</h1>
     <div >
-        <form class="form-control" method="POST" action="/products" enctype="multipart/form-data" id="producto" >
+        <form class="form-control" method="POST" enctype="multipart/form-data" id="producto" >
             <div class="row">
                 <div class="col p-3">
                     <input class="form-control" type="text" name="title" id="title" placeholder="Ingrese un titulo" required />
@@ -43,6 +43,7 @@
                 </div>
             </div>
             <button class="btn btn-primary" type="submit">Agregar producto</button>
+            <div id="message"></div>
             <div class="container">
                {{#if rta}}
                <h3 class="text-success">El producto se agrego correctamente</h3>

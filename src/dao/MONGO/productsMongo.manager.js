@@ -5,6 +5,7 @@ import productsModel from "./models/products.model.js";
     }
 
     async create(product){
+        
         return await this.productsModel.create(product)
     }
 

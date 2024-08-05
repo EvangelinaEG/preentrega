@@ -41,8 +41,10 @@ class ProductController{
         }
     }
     createproduct  = async (req, res, next) => {
+       
         try{
             const { body } = req
+           
             if( !body.title || !body.code || !body.price || !body.description ){
                 CustomError.createError({
                     name: 'Error al crear un producto',
@@ -51,12 +53,15 @@ class ProductController{
                     code: EError.INVALID_TYPES_ERROR
                 })
             }
+          
            /*  const  socketServer  = req.socketServer 
             const messages = []
             socketServer.on('connection', socket => {
                 alert('Cliente conectado post')
             
             }) */
+            body.owner = req.user.user.email;
+           
             const result = await this.productService.createProduct(body)
             res.send({status: 'success', data: result})
         }catch(error){
@@ -65,14 +70,14 @@ class ProductController{
   }
 
   getProductById     =  async (req, res, next) => {
-    try{
-        const { pid } = req.params
-        const productFound = await this.productService.getBy(pid)
-        res.send({status: 'success', payload: productFound})
-    }catch(error){
-        next(error); 
+        try{
+            const { pid } = req.params
+            const productFound = await this.productService.getBy(pid)
+            res.send({status: 'success', payload: productFound})
+        }catch(error){
+            next(error); 
+        }
     }
-}
 updateproduct  = async (req, res, next) => {
     try{
         const { body } = req
@@ -90,7 +95,7 @@ updateproduct  = async (req, res, next) => {
                 code: EError.INVALID_TYPES_ERROR
             })
         }
-        const result = await this.productService.create(body)
+        const result = await this.productService.update(body)
         res.send({status: 'success', data: result})
     }catch(error){
         next(error)
