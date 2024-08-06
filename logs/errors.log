@@ -135,3 +135,6 @@ error: product is not defined - POST en /products - 4/8/2024, 9:19:48 p.m.
 error: this.productService.create is not a function - POST en /products - 4/8/2024, 9:21:35 p.m.
 error: product is not defined - POST en /products - 4/8/2024, 9:21:35 p.m.
 error: product is not defined - POST en /products - 4/8/2024, 9:25:38 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:34:48 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:37:36 p.m.
+error: product is not defined - POST en /products - 4/8/2024, 9:39:07 p.m.

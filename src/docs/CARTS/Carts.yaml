@@ -1,0 +1,142 @@
+paths:
+  /api/carts/:
+    get:
+      summary: Obtiene el cart actual
+      tags: 
+        - Carts
+      responses: 
+        '200':
+          description: "El carrito fue obtenido correctamente de la base de datos"
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Carts'
+        '500':
+          description: Error interno del servidor
+
+    post: 
+      summary: Crea un nuevo cart
+      tags: 
+        - Carts
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/createCarts'
+      responses:
+        "201":
+          description: El carrito fue creado exitosamente
+
+  /api/cart/{cid}/products/{pid}:
+    post:
+      summary: Agrega un producto a un cart existente
+      tags: 
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id del carrito que se desea actualizar
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto dentro del carrito que se desea actualizar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/requestBodies/updateCarts'
+      responses:
+        "200":
+          description: El producto fue actualizado exitosamente
+        '400':
+          description: Error en la solicitud
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno del servidor
+
+    delete:
+      summary: Elimina un producto existente dentro de un carrito existente
+      tags: 
+        - Carts  
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          description: Id del carrito que se desea actualizar
+          schema:
+            type: string
+        - name: pid
+          in: path
+          required: true
+          description: Id del producto dentro del carrito que se desea actualizar
+          schema:
+            type: string
+      responses:
+        "204":
+          description: El producto fue eliminado exitosamente
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno del servidor
+
+components:
+  schemas:
+    Carts: 
+      type: object
+      properties:
+        _id: 
+          type: string
+          description: Id autogenerado de Mongo
+        products:
+          type: array
+          description: Colección de productos con sus respectivas cantidades
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: Id del producto
+              quantity:
+                type: integer
+                description: Cantidad del producto en el carrito
+      example:
+        _id: "66542273e77080071ea862c7"
+        products: [{_id: "61742273e77675071ea862c7", quantity: 3}, {_id: "61782773e77675071ea86717", quantity: 2}]
+
+  requestBodies:
+    createCarts:
+      type: object
+      properties:
+        products: 
+          type: array
+          description: Colección de productos
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: Id del producto
+              quantity:
+                type: integer
+                description: Cantidad del producto en el carrito
+      example:
+        products: [{_id: "61742273e77675071ea862c7", quantity: 6}, {_id: "61742225d77675071ea86268", quantity: 8}]
+
+    updateCarts:
+      type: object
+      properties:
+        quantity: 
+          type: integer
+          description: Nueva cantidad del producto en el carrito
+      example:
+        quantity: 4

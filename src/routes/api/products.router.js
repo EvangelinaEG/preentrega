@@ -15,7 +15,7 @@ const {
     createproduct,
 } = new ProductController()
 
-router.get('/products',  getproducts)
+router.get('/',  getproducts)
 router.post('/products', passportCall('jwt'), atuhorization('admin', 'premium'), createproduct)
 router.get('/products/:pid', passportCall('jwt'), atuhorization('user'), getProductById)
 router.put('/products/:pid', passportCall('jwt'), atuhorization('admin', 'premium'), updateproduct)

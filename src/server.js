@@ -11,7 +11,9 @@ import { connectDB, objectConfig } from './config/index.js'
 import routerApp from './routes/index.js'
 //import { sendMessage } from './utils/sendMessage.js'
 import handleErrors from './middlewares/errors/index.js'
-
+//importaciones de swagger
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUiExpress from 'swagger-ui-express'
 import cors from 'cors'
 import { addDevLogger } from './utils/devLogger.js'
 import { addProdLogger } from './utils/prodLogger.js'
@@ -26,8 +28,17 @@ const { port } = objectConfig
 //     return app.use(midd)
 // }
 // appUse(express.json())
-
-
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.1',
+        info: {
+            title: 'Documentacion de app de Eccomerce',
+            description: 'Api para documentar procesos del Eccomerce'
+        }
+    },
+    apis: [`${__dirname}/docs/**/*.yaml`]
+}   
+const especs = swaggerJSDoc(swaggerOptions)
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(express.static(__dirname+'/public'))
@@ -45,6 +56,7 @@ app.engine('hbs', handlebars.engine({
 }))
 app.set('views', __dirname+'/views')
 app.set('view engine', 'hbs')
+app.use('/apidocs', swaggerUiExpress.serve, swaggerUiExpress.setup(especs))
 app.use(addDevLogger)
 app.use(addProdLogger)
 app.use(routerApp)
@@ -53,6 +65,8 @@ app.use((err, req, res, next) => {
     req.logger.error(`${err.message} - ${req.method} en ${req.url} - ${new Date().toLocaleString()}`);
     res.status(500).send('Internal Server Error');
 });
+
+
 // Guardar en una cont
 httpServer.listen(port, error => {
     if(error) console.log(error)

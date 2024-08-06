@@ -49,7 +49,7 @@ router.get("/sendEmail", (req, res) => {
 router.use('/api/sessions', sessionsRouter) 
 router.use('/api/users', usersRouter)
 router.use('/carts', cartsRouter)
-router.use('/products', productsRouter)
+router.use('/api/products', productsRouter)
 router.use('/', productsRouter)
 router.get('/loggerTest', async (req, res) => {
     req.logger.fatal("Fatal Error!");
