@@ -138,3 +138,9 @@ error: product is not defined - POST en /products - 4/8/2024, 9:25:38 p.m.
 error: product is not defined - POST en /products - 4/8/2024, 9:34:48 p.m.
 error: product is not defined - POST en /products - 4/8/2024, 9:37:36 p.m.
 error: product is not defined - POST en /products - 4/8/2024, 9:39:07 p.m.
+error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 8/8/2024, 12:01:39 a.m.
+error: La actualización no se realizó - PUT en /api/users/premium/666a38e8a58cc41b62e00076 - 8/8/2024, 12:01:58 a.m.
+error: pid is not defined - DELETE en /api/products/66b43b6b25b757c8bcc08d66 - 8/8/2024, 12:32:15 a.m.
+error: this.productService.delete is not a function - DELETE en /api/products/66b43b6b25b757c8bcc08d66 - 8/8/2024, 12:33:29 a.m.
+error: carts is not defined - GET en /api/carts - 8/8/2024, 12:48:23 a.m.
+error: this.cartService.getcartById is not a function - GET en /api/carts/664d070a2b475e5660cd48b3 - 8/8/2024, 12:50:26 a.m.

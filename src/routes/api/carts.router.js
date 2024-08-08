@@ -14,9 +14,9 @@ const {
 
 router.get('/',                         getcarts)
 router.post('/',                        createcart)
-router.get('/cart',                     getcart)
-router.post('/products/:pid',      updatecart)
-router.get('/delete/:pid',              deletecart)
-router.get('/:cid/purchase',           checkoutCart)
+router.get('/:cid',                     getcart)
+router.post('/:cid/products/:pid',      updatecart)
+router.delete('/:cid/products/:pid',    deletecart)
+router.get('/:cid/purchase',            checkoutCart)
 
 export default router

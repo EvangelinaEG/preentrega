@@ -15,15 +15,15 @@ class cartController{
             //t = Object.values(docs[0].products).forEach(pro => t + parseInt(pro.quantity))
             Object.values(docs[0].products).forEach(pro => sum += (parseFloat(pro.product.price) * parseInt(pro.quantity)))
             Object.values(docs[0].products).forEach(pro => t += parseInt(pro.quantity))
-
-            res.render('cart', {
+            res.send(docs)
+            /* res.render('cart', {
                 cart: docs[0],
                 products: Object.values(docs[0].products),
                 countCart: Object.values(docs[0]).length - 1,
                 counT: t,
                 sumT: sum,
                 
-            })
+            }) */
             
         }catch(error){
             next(error); 
@@ -32,8 +32,8 @@ class cartController{
     getcart     =  async (req, res, next) => {
         try{
             const {cid } = req.params
-            const cart = await this.cartService.getcartById({ cid })
-            res.send(cart)
+            const cart = await this.cartService.getCart({cid })
+            res.send({status: 'success', payload: cart})
          
         }catch(error){
             next(error); 
@@ -175,15 +175,15 @@ class cartController{
             //t = Object.values(docs[0].products).forEach(pro => t + parseInt(pro.quantity))
             Object.values(docs[0].products).forEach(pro => sum += (parseFloat(pro.product.price) * parseInt(pro.quantity)))
             Object.values(docs[0].products).forEach(pro => t += parseInt(pro.quantity))
-
-            res.render('cart', {
+            res.send({status: 'success', payload: docs})
+           /*  res.render('cart', {
                 cart: docs[0],
                 products: Object.values(docs[0].products),
                 countCart: Object.values(docs[0]).length,
                 counT: t,
                 sumT: sum,
-            /*     */
-            })
+           
+            }) */
                 }catch(error){
                     next(error); 
                 }

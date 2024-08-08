@@ -13,8 +13,8 @@ class ProductController{
             const {limit, numPage, order, filter } = req.query
 
             const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
-
-            res.render('products', {
+            res.send({status: 'success', payload: docs})
+           /*   res.render('products', {
                products: docs,
                page, 
                hasNextPage,
@@ -26,9 +26,9 @@ class ProductController{
                order: order === null || typeof order === "undefined"? -1 : order,
                filter: filter === null || filter === "" || typeof filter === "undefined"? null : filter,
                
-           })
+           })  */
         }catch(error){
-            next(error); 
+            console.log(error); 
         }
     } 
     getproduct     =  async (req, res, next) => {
@@ -37,7 +37,7 @@ class ProductController{
             const productFound = await this.productService.getProduct({_id: uid})
             res.send({status: 'success', payload: productFound})
         }catch(error){
-            next(error); 
+            console.log(error); 
         }
     }
     createproduct  = async (req, res, next) => {
@@ -65,17 +65,17 @@ class ProductController{
             const result = await this.productService.createProduct(body)
             res.send({status: 'success', data: result})
         }catch(error){
-            next(error)
+            console.log(error)
         }
   }
 
   getProductById     =  async (req, res, next) => {
         try{
             const { pid } = req.params
-            const productFound = await this.productService.getBy(pid)
+            const productFound = await this.productService.getProduct(pid)
             res.send({status: 'success', payload: productFound})
         }catch(error){
-            next(error); 
+            console.log(error); 
         }
     }
 updateproduct  = async (req, res, next) => {
@@ -98,7 +98,7 @@ updateproduct  = async (req, res, next) => {
         const result = await this.productService.update(body)
         res.send({status: 'success', data: result})
     }catch(error){
-        next(error)
+        console.log(error)
     }
 } 
   /*   updateproduct  = async (req, res) => {
@@ -112,7 +112,8 @@ updateproduct  = async (req, res, next) => {
     } */
     deleteproduct = async (req, res, next) => {
         try{
-            const result = await this.productService.delete({ _id: pid });
+            const { pid } = req.params
+            const result = await this.productService.deleteProduct({ _id: pid });
             res.send({status: 'success', data: result})
         }catch(error){
             next(error); 

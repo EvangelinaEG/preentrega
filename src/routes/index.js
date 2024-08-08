@@ -45,11 +45,11 @@ router.get("/sendEmail", (req, res) => {
         console.log(error)
     }
 })
-
+router.use('/api/products', productsRouter)
 router.use('/api/sessions', sessionsRouter) 
 router.use('/api/users', usersRouter)
-router.use('/carts', cartsRouter)
-router.use('/api/products', productsRouter)
+router.use('/api/carts', cartsRouter)
+
 router.use('/', productsRouter)
 router.get('/loggerTest', async (req, res) => {
     req.logger.fatal("Fatal Error!");
