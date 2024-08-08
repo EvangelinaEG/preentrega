@@ -30,7 +30,7 @@ paths:
         "201":
           description: El carrito fue creado exitosamente
 
-  /api/cart/{cid}/products/{pid}:
+  /api/carts/{cid}/products/{pid}:
     post:
       summary: Agrega un producto a un cart existente
       tags: 
