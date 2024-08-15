@@ -8,7 +8,6 @@ const userCollection = 'users';
 const userSchema = new Schema({
     fullName: {
         type: String,
-        required: true
     },
     first_name: {
         type: String,
@@ -21,7 +20,10 @@ const userSchema = new Schema({
         unique: true
     },
     age: Number,
-    password: String,
+    password: {
+        type: String,
+        required: true, 
+    },
     cartId: {
         type: Schema.ObjectId,
         ref: 'carts'

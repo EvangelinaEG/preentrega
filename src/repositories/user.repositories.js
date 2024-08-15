@@ -33,8 +33,8 @@ class UserRepositories {
     
     async createUser(user){
         try {
-            const newUser = new UserDto(user)
-            return await  this.dao.create(newUser)       
+            //const newUser = new this.dao(user)
+            return await  this.dao.create(user)       
         } catch (error) {
             return error
         }

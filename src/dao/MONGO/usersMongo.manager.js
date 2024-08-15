@@ -16,7 +16,8 @@ class UsersManagerMongo {
     }
   
     create = async (newUser) => {
-        return await this.userModel.create(newUser)
+        const user = await this.userModel.create(newUser)
+        return user
     }
   
     getBy = async (id) => {
@@ -47,7 +48,7 @@ class UsersManagerMongo {
     updateRole = async (user) => {
       
       const currentUser = await this.userModel.findOne({ _id: user._id });
-    console.log(currentUser)
+  
       if (!currentUser) {
         throw new Error("Usuario no encontrado");
       }

@@ -144,3 +144,5 @@ error: pid is not defined - DELETE en /api/products/66b43b6b25b757c8bcc08d66 - 8
 error: this.productService.delete is not a function - DELETE en /api/products/66b43b6b25b757c8bcc08d66 - 8/8/2024, 12:33:29 a.m.
 error: carts is not defined - GET en /api/carts - 8/8/2024, 12:48:23 a.m.
 error: this.cartService.getcartById is not a function - GET en /api/carts/664d070a2b475e5660cd48b3 - 8/8/2024, 12:50:26 a.m.
+error: this.userService.create is not a function - POST en /api/sessions/register - 15/8/2024, 8:12:47 a.m.
+error: this.userService.create is not a function - POST en /api/sessions/register - 15/8/2024, 8:59:11 a.m.

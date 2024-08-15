@@ -32,17 +32,18 @@ class SessionsController{
                 first_name,
                 last_name, 
                 email, 
-                password: createhash(password) // lo vamos a encriptar
+                password: createhash(password), // lo vamos a encriptar
+                role: "admin"
             }
-        
-            const result = await this.userService.create(newUser)
+            
+            const result = await this.userService.createUser(newUser)
             // datos de dentro del token
             const token = generateToken({
                 id: result._id,
                 email
             })
         
-            res.send({status: 'success', token})
+            res.send({status: 'success', result})
             
         } catch (error) {
             next(error); 
