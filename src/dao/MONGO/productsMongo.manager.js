@@ -13,9 +13,9 @@ import productsModel from "./models/products.model.js";
         return this.productsModel.findById({ _id: filter });
     }
 
-     async getBy(name){
-        return await this.productsModel.find((product) => product.name === name)
-    } 
+    async getBy(code) {
+        return await this.productsModel.findOne({ code: code }).lean(); // Utiliza findOne para encontrar un único documento
+    }
 
     async updateStock(pid) {
         
@@ -39,17 +39,18 @@ import productsModel from "./models/products.model.js";
         return result? result.modifiedCount : result;
     }
      
-    async getAll({limit = 4, numPage=1, order = -1, filter = null}) {
-    
-        let products = []
+    async getAll({ limit = 4, numPage = 1, order = -1, filter = null } = {}) {
+        let result = {};
         
-        if(filter === '' || filter === null){
-            products =  await this.productsModel.paginate({}, {limit, page: numPage, sort: { price: parseInt(order) }, lean: true })
-        }else{
-            products =  await this.productsModel.paginate({category: filter}, {limit, page: numPage, sort: {price: 'asc'}, lean: true })
+        if (filter === '' || filter === null) {
+            result = await this.productsModel.paginate({}, { limit, page: numPage, sort: { price: parseInt(order) }, lean: true });
+        } else {
+            result = await this.productsModel.paginate({ category: filter }, { limit, page: numPage, sort: { price: 'asc' }, lean: true });
         }
-        return products
+    
+        return result.docs; // Devuelve solo el arreglo de documentos
     }
+    
 }
 
 export default ProductsManagerMongo
