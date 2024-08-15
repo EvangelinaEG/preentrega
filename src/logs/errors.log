@@ -1542,3 +1542,7 @@ http: POST en /api/carts - 14/8/2024, 11:05:43 p.m.
 http: POST en /api/carts - 14/8/2024, 11:05:45 p.m.
 http: POST en /api/carts - 14/8/2024, 11:06:40 p.m.
 http: POST en /api/carts - 14/8/2024, 11:07:31 p.m.
+http: POST en /api/carts - 15/8/2024, 12:15:16 a.m.
+http: POST en /api/carts/66556550a2ad31a521163903/products/664d1a31f798d6a20eba88d9 - 15/8/2024, 12:15:16 a.m.
+http: POST en /api/carts - 15/8/2024, 12:16:03 a.m.
+http: POST en /api/carts/66556550a2ad31a521163903/products/664d1a31f798d6a20eba88d9 - 15/8/2024, 12:16:03 a.m.
