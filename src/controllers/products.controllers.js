@@ -8,29 +8,51 @@ class ProductController{
         this.productService = productService
     }
 
-    getproducts    = async (req,res, next) => {
-        try{
-            const {limit, numPage, order, filter } = req.query
-
-            const  { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await productService.getProducts({limit, numPage, order, filter})
-            res.send({status: 'success', payload: docs})
-           /*   res.render('products', {
-               products: docs,
-               page, 
-               hasNextPage,
-               hasPrevPage,
-               nextPage,
-               prevPage,
-               limit: limit === null || limit === "" || typeof limit === "undefined" ? 4 : limit,
-               contproducts: docs.length > 0,
-               order: order === null || typeof order === "undefined"? -1 : order,
-               filter: filter === null || filter === "" || typeof filter === "undefined"? null : filter,
-               
-           })  */
-        }catch(error){
-            console.log(error); 
+    getproducts = async (req, res, next) => {
+        try {
+            const { limit, numPage, order, filter } = req.query;
+    
+            const products = await productService.getProducts({ limit, numPage, order, filter });
+     
+            return {
+                payload: products, 
+                page: numPage || 1,
+                hasPrevPage: false, 
+                hasNextPage: false, 
+                prevPage: null,
+                nextPage: null  
+            };
+        } catch (error) {
+            console.log(error);
+            next(error);
         }
-    } 
+    }
+    
+    
+    products = async (req, res, next) => {
+        try {
+            const { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await this.getproducts(req, res, next);
+    
+            const { limit, numPage, order, filter } = req.query;
+            res.render('products', {
+                products: docs,
+                page: page,
+                hasNextPage: hasNextPage,
+                hasPrevPage: hasPrevPage, 
+                nextPage: nextPage,
+                prevPage: prevPage,
+                limit: limit === null || limit === "" || typeof limit === "undefined" ? 4 : limit,
+                contproducts: docs.length > 0,
+                order: order === null || typeof order === "undefined" ? -1 : order,
+                filter: filter === null || filter === "" || typeof filter === "undefined" ? null : filter,
+            });
+        } catch (error) {
+            console.log(error);
+            next(error); 
+        }
+    }
+    
+    
     getproduct     =  async (req, res, next) => {
         try{
             const { uid } = req.params

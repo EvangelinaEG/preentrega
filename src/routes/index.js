@@ -45,6 +45,7 @@ router.get("/sendEmail", (req, res) => {
         console.log(error)
     }
 })
+router.use('/products', productsRouter)
 router.use('/api/products', productsRouter)
 router.use('/api/sessions', sessionsRouter) 
 router.use('/api/users', usersRouter)

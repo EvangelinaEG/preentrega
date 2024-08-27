@@ -8,6 +8,7 @@ import { generateUsers } from '../../utils/generateProductsMock.js'
 const router = Router()
 
 const {
+    products,
     getproducts,
     getProductById,
     updateproduct,
@@ -15,7 +16,7 @@ const {
     createproduct,
 } = new ProductController()
 
-router.get('/',  getproducts)
+router.get('/',  products)
 router.post('/', passportCall('jwt'), atuhorization('admin', 'premium'), createproduct)
 router.get('/:pid', passportCall('jwt'), atuhorization('user'), getProductById)
 router.put(':pid', passportCall('jwt'), atuhorization('admin', 'premium'), updateproduct)

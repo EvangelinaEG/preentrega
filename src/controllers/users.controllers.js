@@ -73,6 +73,14 @@ class UserController{
         res.send('delete User')
     }
 
+    documents = (req, res) => {
+            if (!req.file) {
+                return res.send('no se puede subir el archivo')        
+            }
+        
+            res.send('archivo subido')
+    }
+
     autenticacion = async (req, res) => {
         try{
             res.render("autenticacion")

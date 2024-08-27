@@ -32,7 +32,14 @@ const userSchema = new Schema({
         type: String,
         enum: ['user', 'premium', 'admin'],
         default: 'user'
-    }
+    },
+    documents: {
+        type: [{
+            name: String,
+            reference: String
+        }]
+    },
+    last_connection: Date
 });
 
 userSchema.plugin(mongoosePaginate);

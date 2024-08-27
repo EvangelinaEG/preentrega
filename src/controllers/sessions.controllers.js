@@ -169,6 +169,10 @@ class SessionsController{
         // }
     
         // console.log(req.session.user)
+
+        userFound.last_connection = new Date();
+        await userFound.save();
+
         const token = generateToken({
             id: userFound._id,
             email,
@@ -187,15 +191,30 @@ class SessionsController{
     }
     
     logout = async (req, res, next) => {
-        try{
+        try {
+            
+            const token = req.cookies.token;
+            if (!token) return res.redirect("/login");
+            
+            const decoded = verifyToken(token); 
+            const userId = decoded.id;
+    
+            const userFound = await this.userService.getById(userId);
+            if (!userFound) return res.redirect("/login");
+    
+            userFound.last_connection = new Date();
+            await userFound.save();
+    
             res.cookie('token', "", {
                 maxAge: -1,
                 httpOnly: true
-            }).redirect("/login")
-        }catch(error){
-            next(error); 
+            }).redirect("/login");
+            
+        } catch (error) {
+            next(error);
         }
     }
+    
 
 }
 

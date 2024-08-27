@@ -61,6 +61,8 @@ app.use(addDevLogger)
 app.use(addProdLogger)
 app.use(routerApp)
 app.use(handleErrors)
+app.use(express.urlencoded({extended: true}))
+app.use(express.static(__dirname+'/public'))
 app.use((err, req, res, next) => {
     req.logger.error(`${err.message} - ${req.method} en ${req.url} - ${new Date().toLocaleString()}`);
     res.status(500).send('Internal Server Error');
