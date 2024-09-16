@@ -15,11 +15,13 @@ const {
     autenticacion,
     updateRole,
     logout,
-    documents
+    documents,
+    deleteAll
 } = new UserController()
 
 router.get('/',                 getUsers)
 router.post('/',                createUser)
+router.delete('/deleteInactive', deleteAll)
 //router.put('/premium/:uid',     updateRole)
 router.post('/updateRole/:uid',     updateRole)
 router.get('/autorizacion',     autorizacion)

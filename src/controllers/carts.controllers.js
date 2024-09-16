@@ -42,7 +42,7 @@ class cartController{
     createcart  = async (req, res, next) => {
         try{
             const { cid } = req.query;
-            console.log({cid})
+            //console.log({cid})
 
             const carts = await this.cartService.getCart({cid })
             console.log(carts)

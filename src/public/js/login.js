@@ -8,6 +8,8 @@ $('#login').on('submit', function(event) {
       return obj;
     }, {});
 
+    console.log(data)
+
     $.ajax({
       url: '/api/sessions/login',
       method: 'POST',

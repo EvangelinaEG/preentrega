@@ -57,7 +57,7 @@ class UserController{
     updateRole  = async (req, res, next) => {
         try{
             const role = req.body.role;
-          console.log(req.body.role)
+          
             if(!req.params.uid) return res.send({status: 'error', error: 'faltan campos'})
             const result = await this.userService.updateRole(req.params.uid, role)
             if (result.acknowledged && result.modifiedCount > 0) {
@@ -78,7 +78,7 @@ class UserController{
             res.send({status: 'success'})
             
         }catch(error){
-            next(error); 
+            res.status(500).json({ success: false, message: 'Error al eliminar el usuario' });
         }
     }
 
@@ -86,8 +86,8 @@ class UserController{
         try{
             const result = await this.userService.deleteAll()
             res.send({status: 'success'}) 
-        }catch(error){
-            next(error); 
+        } catch (error) {
+            res.status(500).json({ success: false, message: 'Error al eliminar los usuarios inactivos' });
         }
     }
 

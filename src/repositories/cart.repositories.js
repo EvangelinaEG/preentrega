@@ -56,7 +56,7 @@ class CartRepositories {
    
     checkoutCart = async (req, res) => {
         const {cid} = req.params
-        console.log(cid)
+        
         res.json({
             status: 'success',
             message: 'Purchase completed successfully',

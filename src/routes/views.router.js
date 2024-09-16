@@ -210,7 +210,7 @@ viewsrouter.get('/products', async (req, res, next) => {
 
 viewsrouter.post('/products', passportCall('jwt'), atuhorization('user'), async (req, res, next) => {
    try{
-    console.log("entro por aca ahora")
+    
     const productSocket = req.productSocket
     const  socketServer  = req.socketServer 
     const products = []
@@ -285,7 +285,7 @@ viewsrouter.get('/chat',passportCall('jwt'), atuhorization('user'), (req, res, n
     const { socketServer } = req
 
     socketServer.on('connection', socket => {
-        console.log('nuevo cliete conectado')
+        
     
         // socket.on('message', data => {
         //     console.log(data)

@@ -10,6 +10,7 @@
                     <th>Nombre</th>
                     <th>Email</th>
                     <th>Tipo de Cuenta</th>
+                    <th>Ultimo dia de coneccion</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -18,6 +19,7 @@
                     <tr>
                         <td>{{this.first_name}} {{this.last_name}}</td>
                         <td>{{this.email}}</td>
+
                         <td>
                             <!-- Menú desplegable para editar rol -->
                             <select class="custom-select custom-select-sm" onchange="updateRole('{{this._id}}', this.value);">
@@ -27,6 +29,7 @@
                                 <option value="admin" {{#if (eq this.role "admin")}}selected{{/if}}>Admin</option>
                             </select>
                         </td>
+                        <td>{{this.last_connection}}</td>
                         <td>
                             <!-- Botón para eliminar usuario -->
                             <button class="btn btn-danger btn-sm" onclick="deleteUser('{{this._id}}');">Eliminar</button>

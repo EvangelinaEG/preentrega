@@ -93,6 +93,7 @@ class UserRepositories {
     }    
     async deleteAll(){
         try {
+            
             let result = await this.dao.deleteAll();
             return result;
         } catch (error) {

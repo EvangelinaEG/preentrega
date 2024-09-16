@@ -32,7 +32,7 @@ class UsersManagerMongo {
       const result = await this.userModel.deleteMany({
           last_connection: { $lt: twoDaysAgo }
       });
-  
+
       return result;
     }
   

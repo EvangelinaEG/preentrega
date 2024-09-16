@@ -13,8 +13,6 @@ describe('Teste de app', function() {
 
             const { statusCode, ok, body } = await resqueter.post('/api/sessions/login').send(loginMock);
 
-            console.log(ok);
-            console.log(statusCode);
         })
         it('El endpoint /api/sessions/register debe crear un usuario correctamente', async () => {
             const registerMock = {

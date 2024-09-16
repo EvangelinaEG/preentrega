@@ -72,7 +72,7 @@ export default class CartManager {
             const cart = carts.find(c => parseInt(id.cid) == c.id)
             
             const pro = cart.products.findIndex(pro => pro.product === parseInt(product.pid))
-            console.log(pro)
+            
             if( pro === -1 ) {
                 const pr = {"product": parseInt(product.pid), "quantity": 1}
                 cart.products.push(pr)

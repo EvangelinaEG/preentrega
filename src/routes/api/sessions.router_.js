@@ -61,7 +61,7 @@ sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRe
 
 
 sessionsRouter.post('/failregister', async (req, res) => {
-    console.log('falló la estrategia')
+    
     res.send({error: 'failed'})
 })
 

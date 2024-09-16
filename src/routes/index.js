@@ -52,7 +52,7 @@ router.use('/users', async (req, res) => {
     try {  
         const { limit=5, page=1 }= req.query            
         const result = await userService.getUsers(parseInt(limit), parseInt(page))   
-             console.log(result.docs)
+             
         res.render("users", {
             users: result.docs
         })
@@ -60,14 +60,7 @@ router.use('/users', async (req, res) => {
          console.log(error)
     }
 })
-router.delete('/api/users/deleteInactive', async (req, res) => {
-    try {
-        const result = await deleteAll();
-        res.json({ success: true, result });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Error deleting inactive users' });
-    }
-});
+
 router.use('/products', productsRouter)
 router.use('/api/products', productsRouter)
 router.use('/api/sessions', sessionsRouter) 

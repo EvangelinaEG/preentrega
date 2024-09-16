@@ -49,7 +49,7 @@ $(document).ready(function() {
     }) 
 
 $(".addCart").on("click", function(){
-    console.log($_SESSION)
+    
     $(this).attr('disabled')
     const pid = $(this).attr("id");
    

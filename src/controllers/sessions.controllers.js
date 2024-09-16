@@ -150,7 +150,7 @@ class SessionsController{
     login = async  (req, res, next) => {
         try{
         const {email, password} = req.body
-    
+        
         // validar si vienen los datos
         if(!email || !password) return res.status(401).send({status: 'error', error: 'se debe completar todos los datos'})
     
@@ -162,12 +162,7 @@ class SessionsController{
         
         if(!isValid) return res.status(401).send({status: 'error', error: 'Pasword incorrecto'})
     
-        /*  req.session.user = {
-             email,
-             admin: userFound.role === 'admin'
-         } */
-    
-
+       
         userFound.last_connection = new Date();
         await userFound.save();
 
@@ -181,12 +176,13 @@ class SessionsController{
         
         const cart = await this.cartService.createCart({ email })
 
-        console.log(cart)
+       
         
         res.cookie('token', token, {
                 maxAge: 60*60*1000*24,
                 httpOnly: true
-            }).redirect("/api/products")
+            });
+            return res.redirect('/products');
         }catch(error){
             next(error); 
         }

@@ -1,6 +1,6 @@
 <main class="container">
     <h1>Login</h1>
-    <form id="login" method="POST" class="form-group w-50">
+    <form id="login"  class="form-group w-50">
         <label>Email</label>
         <input type="email" name="email" class="form-control">
         <label>Password</label>
@@ -16,4 +16,40 @@
 </main>
 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
- <script src="/js/login.js"></script>
+
+<script>
+ $(document).ready(function() {
+$('#login').on('submit', function(event) {
+    event.preventDefault(); 
+
+// Serializa los datos del formulario
+const data = $(this).serializeArray().reduce((obj, item) => {
+  obj[item.name] = item.value;
+  return obj;
+}, {});
+
+
+// Realiza la solicitud AJAX
+$.ajax({
+  url: '/api/sessions/login',
+  method: 'POST',
+  contentType: 'application/json',
+  data: JSON.stringify(data),
+  success: function(response) {
+    // Muestra un mensaje de éxito
+    $('#message').text('La sesión se inició correctamente');
+    
+    // Redirige a la página de productos
+    window.location.href = '/products';
+  },
+  error: function(xhr, status, error) {
+    // Muestra un mensaje de error
+    $('#message').text('Hubo un problema al intentar iniciar sesión');
+    console.error('Error:', error);
+  }
+});
+  
+})
+ })
+
+</script>
