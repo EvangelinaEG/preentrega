@@ -9,7 +9,7 @@ class UserRepositories {
 
     async getUsers(limit, page){
         try {
-            return await  this.dao.get(limit, page)            
+            return await  this.dao.getAll(limit, page)            
         } catch (error) {
             return error
         }
@@ -52,9 +52,9 @@ class UserRepositories {
             throw new Error("Error actualizando el usuario: " + error.message);
         }
     }    
-    async updateRole(uid) {
+    async updateRole(uid, rol) {
         try {
-        
+            const role = rol;
             // Obtener el usuario por su uid
             let user = await this.dao.getBy(uid);
             
@@ -63,7 +63,7 @@ class UserRepositories {
             }
             
             // Actualizar el rol del usuario a "premium"
-            const result = await this.dao.updateRole(user);
+            const result = await this.dao.updateRole(user, role);
             
             return result;
         } catch (error) {
@@ -72,7 +72,34 @@ class UserRepositories {
         }
     }
       
-    async deleteUser(){}    
+    async deleteUser(uid, rol){
+        try {
+            
+            const role = rol;
+            // Obtener el usuario por su uid
+            let user = await this.dao.getBy(uid._id);
+            
+            if (!user) {
+                throw new Error("Usuario no encontrado");
+            }
+            
+            const result = await this.dao.delete(uid._id);
+            
+            return result;
+        } catch (error) {
+            console.error("Error eliminando el usuario:", error);
+            throw new Error("Error eliminando el usuario: " + error.message);
+        }
+    }    
+    async deleteAll(){
+        try {
+            let result = await this.dao.deleteAll();
+            return result;
+        } catch (error) {
+            console.error("Error eliminando el usuario:", error);
+            throw new Error("Error eliminando el usuario: " + error.message);
+        }
+    } 
 }
 
 export default UserRepositories

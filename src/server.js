@@ -24,10 +24,6 @@ const httpServer = new ServerHttp(app)
 const io = new ServerIO(httpServer)
 const { port } = objectConfig
 
-// const appUse = midd => {
-//     return app.use(midd)
-// }
-// appUse(express.json())
 const swaggerOptions = {
     definition: {
         openapi: '3.0.1',
@@ -52,7 +48,10 @@ app.use(passport.initialize())
 
 // express usa este motor de plantillas
 app.engine('hbs', handlebars.engine({
-    extname: '.hbs'
+    extname: '.hbs',
+    helpers: {
+        eq: (a, b) => a === b
+    }
 }))
 app.set('views', __dirname+'/views')
 app.set('view engine', 'hbs')

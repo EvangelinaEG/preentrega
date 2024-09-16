@@ -1,17 +1,136 @@
-<div>
-    <h1>Page de Users</h1>
-    {{#each users}}
-        <p>Nombre: {{this.first_name}} - {{this.last_name}}</p>
-        <p>Email:  {{this.email}}</p>
-        <hr>
-    {{/each}}
-    <center>
-        {{#if hasPrevPage}}
-            <a href="/users?numPage={{prevPage}}">Anterior</a>
-        {{/if}}
-        <label>{{page}}</label>
-        {{#if hasNextPage}}
-            <a href="/users?numPage={{nextPage}}">Siguente</a>
-        {{/if}}
-    </center>
+ <div class="container mt-4">
+    <h1 class="mb-4">Página de Usuarios</h1>
+
+    <button class="btn btn-danger mt-4" id="delete-inactive-users">Eliminar usuarios inactivos</button>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Tipo de Cuenta</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each users}}
+                    <tr>
+                        <td>{{this.first_name}} {{this.last_name}}</td>
+                        <td>{{this.email}}</td>
+                        <td>
+                            <!-- Menú desplegable para editar rol -->
+                            <select class="custom-select custom-select-sm" onchange="updateRole('{{this._id}}', this.value);">
+                                <option value="user" {{#if (eq this.role "user")}}selected{{/if}}>User</option>
+                                <option value="premium" {{#if (eq this.role "premium")}}selected{{/if}}>Premium</option>
+                                <option value="public" {{#if (eq this.role "public")}}selected{{/if}}>Public</option>
+                                <option value="admin" {{#if (eq this.role "admin")}}selected{{/if}}>Admin</option>
+                            </select>
+                        </td>
+                        <td>
+                            <!-- Botón para eliminar usuario -->
+                            <button class="btn btn-danger btn-sm" onclick="deleteUser('{{this._id}}');">Eliminar</button>
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4">
+            {{#if hasPrevPage}}
+                <li class="page-item">
+                    <a class="page-link" href="/users?numPage={{prevPage}}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {{/if}}
+
+            <li class="page-item disabled">
+                <span class="page-link">{{page}}</span>
+            </li>
+
+            {{#if hasNextPage}}
+                <li class="page-item">
+                    <a class="page-link" href="/users?numPage={{nextPage}}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {{/if}}
+        </ul>
+    </nav>
 </div>
+
+<!-- Enlaza el JavaScript de Bootstrap (opcional) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Función para actualizar el rol del usuario
+    function updateRole(userId, newRole) {
+        fetch(`/api/users/updateRole/${userId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ role: newRole }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+
+    // Función para eliminar un usuario
+    function deleteUser(userId) {
+        if (confirm('¿Estás seguro de que quieres eliminar este usuario?')) {
+            fetch(`/api/users/${userId}`, {
+                method: 'delete',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Opcionalmente, puedes recargar la página o eliminar la fila de la tabla
+                window.location.reload(); // Recarga la página para actualizar la lista de usuarios
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    }
+
+     document.getElementById('delete-inactive-users').addEventListener('click', function() {
+        // Confirmar la acción del usuario
+        if (confirm('¿Estás seguro de que quieres eliminar todos los usuarios que no se han conectado en los últimos 2 días?')) {
+            // Enviar una solicitud DELETE al servidor
+            fetch('/api/users/deleteInactive', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Usuarios inactivos eliminados exitosamente.');
+                    location.reload(); // Recargar la página para reflejar los cambios
+                } else {
+                    alert('Error al eliminar usuarios inactivos.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error en la solicitud.');
+            });
+        }
+    });
+
+</script>

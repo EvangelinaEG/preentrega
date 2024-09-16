@@ -1,4 +1,4 @@
-import { userService } from "../service/index.js"
+import { userService, cartService } from "../service/index.js"
 import { createhash, isValidPassword } from '../utils/bcrypt.js'
 import { generateToken } from '../utils/jsonwebtoken.js';
 import sendEmail from '../utils/sendEmail.js'; 
@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 class SessionsController{
     constructor(){
         this.userService = userService
-
+        this.cartService = cartService
     }
     
     currentUser = async (req, res) => {
@@ -21,10 +21,9 @@ class SessionsController{
         try {
             const { first_name, last_name, email, password } = req.body
             
-            // validar si vienen los datos
+          
             if(!email || !password) return res.status(401).send({status: 'error', error: 'se debe completar todos los datos'})
         
-            //validar si existe el usuario
             const userExist = await this.userService.getBy({email})
             if(userExist) return res.status(401).send({status: 'error', error: 'el usuario ya existe'})
         
@@ -37,7 +36,7 @@ class SessionsController{
             }
             
             const result = await this.userService.createUser(newUser)
-            // datos de dentro del token
+          
             const token = generateToken({
                 id: result._id,
                 email
@@ -67,7 +66,7 @@ class SessionsController{
             if(email === reemail){
 
                 if(email === reemail){
-                    let html = '</h6><a href="http://localhost:3000/restart" target="_blank">Clic aqui para Reestablecer clave</a>'
+                    let html = '</h6><a href="/restart" target="_blank">Clic aqui para Reestablecer clave</a>'
                     sendEmail({userEmail: email, subject: "Reestablecer clave", html })
                 }
                 const userFound = await this.userService.getBy({email})
@@ -163,15 +162,16 @@ class SessionsController{
         
         if(!isValid) return res.status(401).send({status: 'error', error: 'Pasword incorrecto'})
     
-        // req.session.user = {
-        //     email,
-        //     admin: userFound.role === 'admin'
-        // }
+        /*  req.session.user = {
+             email,
+             admin: userFound.role === 'admin'
+         } */
     
-        // console.log(req.session.user)
 
         userFound.last_connection = new Date();
         await userFound.save();
+
+
 
         const token = generateToken({
             id: userFound._id,
@@ -179,6 +179,9 @@ class SessionsController{
             role: userFound.role
         })
         
+        const cart = await this.cartService.createCart({ email })
+
+        console.log(cart)
         
         res.cookie('token', token, {
                 maxAge: 60*60*1000*24,
@@ -192,12 +195,12 @@ class SessionsController{
     
     logout = async (req, res, next) => {
         try {
-            
             const token = req.cookies.token;
-            if (!token) return res.redirect("/login");
+            //if (!token) return res.redirect("/login");
+    
+            const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
             
-            const decoded = verifyToken(token); 
-            const userId = decoded.id;
+            const userId = decoded.user.id;
     
             const userFound = await this.userService.getById(userId);
             if (!userFound) return res.redirect("/login");
@@ -205,15 +208,17 @@ class SessionsController{
             userFound.last_connection = new Date();
             await userFound.save();
     
-            res.cookie('token', "", {
-                maxAge: -1,
-                httpOnly: true
+            res.cookie('token', '', {
+                maxAge: 0, 
+                httpOnly: true,
+                path: '/' 
             }).redirect("/login");
-            
+    
         } catch (error) {
             next(error);
         }
     }
+    
     
 
 }

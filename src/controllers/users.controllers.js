@@ -56,9 +56,10 @@ class UserController{
     }
     updateRole  = async (req, res, next) => {
         try{
-            
+            const role = req.body.role;
+          console.log(req.body.role)
             if(!req.params.uid) return res.send({status: 'error', error: 'faltan campos'})
-            const result = await this.userService.updateRole(req.params.uid)
+            const result = await this.userService.updateRole(req.params.uid, role)
             if (result.acknowledged && result.modifiedCount > 0) {
                 return { status: "success", payload: result };
             } else {
@@ -69,8 +70,25 @@ class UserController{
             next(error); 
         }
     }
-    deleteUser = (req, res) => {
-        res.send('delete User')
+    deleteUser = async (req, res) => {
+        try{
+            const { uid } = req.params
+            
+            const userFound = await this.userService.deleteUser({_id: uid})
+            res.send({status: 'success'})
+            
+        }catch(error){
+            next(error); 
+        }
+    }
+
+    deleteAll = async (req, res) => {
+        try{
+            const result = await this.userService.deleteAll()
+            res.send({status: 'success'}) 
+        }catch(error){
+            next(error); 
+        }
     }
 
     documents = (req, res) => {

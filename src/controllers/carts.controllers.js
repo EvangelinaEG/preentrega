@@ -41,8 +41,12 @@ class cartController{
     }
     createcart  = async (req, res, next) => {
         try{
-            const carts = await this.cartService.getCarts()
-            let cart = {}
+            const { cid } = req.query;
+            console.log({cid})
+
+            const carts = await this.cartService.getCart({cid })
+            console.log(carts)
+            //let cart = {}
             if(carts.length === 0){
                 cart = await this.cartService.createCart()
             }

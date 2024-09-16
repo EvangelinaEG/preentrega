@@ -159,3 +159,48 @@ error: Cannot set headers after they are sent to the client - GET en /api/produc
 error: Cannot destructure property 'docs' of '(intermediate value)' as it is undefined. - GET en /api/products - 27/8/2024, 2:44:53 a.m.
 error: Cannot set headers after they are sent to the client - GET en /api/products - 27/8/2024, 2:46:03 a.m.
 error: Cannot destructure property 'docs' of '(intermediate value)' as it is undefined. - GET en /api/products - 27/8/2024, 2:47:13 a.m.
+error: Cannot read properties of undefined (reading 'length') - GET en /products - 11/9/2024, 10:11:28 p.m.
+error: Cannot read properties of undefined (reading 'length') - GET en /products - 11/9/2024, 10:11:30 p.m.
+error: Cannot read properties of undefined (reading 'length') - GET en /products - 11/9/2024, 10:12:40 p.m.
+error: this.getProducts is not a function - GET en /products - 11/9/2024, 10:13:06 p.m.
+error: Cannot read properties of undefined (reading 'length') - GET en /products - 11/9/2024, 10:13:34 p.m.
+error: Cannot read properties of undefined (reading 'length') - GET en /products - 11/9/2024, 10:22:54 p.m.
+error: Cannot read properties of undefined (reading 'length') - GET en /products - 11/9/2024, 10:23:15 p.m.
+error: Cannot read properties of undefined (reading 'length') - GET en /products - 11/9/2024, 10:27:27 p.m.
+error: Cannot read properties of undefined (reading 'length') - GET en /products - 11/9/2024, 10:31:25 p.m.
+error: docs is not defined - GET en /products - 11/9/2024, 10:33:02 p.m.
+error: limit is not defined - GET en /products - 11/9/2024, 10:36:07 p.m.
+error: docs is not defined - GET en /products - 11/9/2024, 10:36:37 p.m.
+error: docs is not defined - GET en /products - 11/9/2024, 10:36:53 p.m.
+error: Cannot set properties of undefined (setting 'user') - POST en /api/sessions/login - 12/9/2024, 12:17:37 a.m.
+error: Cannot set properties of undefined (setting 'user') - POST en /api/sessions/login - 12/9/2024, 12:18:23 a.m.
+error: Cannot set properties of undefined (setting 'user') - POST en /api/sessions/login - 12/9/2024, 12:18:42 a.m.
+error: Cannot set properties of undefined (setting 'user') - POST en /api/sessions/login - 12/9/2024, 12:18:49 a.m.
+error: Cannot set properties of undefined (setting 'user') - POST en /api/sessions/login - 12/9/2024, 12:20:16 a.m.
+error: verifyToken is not defined - GET en /api/products - 13/9/2024, 11:38:28 p.m.
+error: verifyToken is not defined - GET en /api/products - 13/9/2024, 11:39:10 p.m.
+error: jwt is not defined - GET en /api/products - 13/9/2024, 11:45:47 p.m.
+error: Cannot read properties of undefined (reading 'getBy') - GET en /api/products - 13/9/2024, 11:46:21 p.m.
+error: Cannot read properties of null (reading 'role') - GET en /api/products - 13/9/2024, 11:47:27 p.m.
+error: verifyToken is not defined - GET en /api/sessions/logout - 13/9/2024, 11:53:53 p.m.
+error: jwt must be provided - GET en /products?limit=4&numPage=1&filter=Category%201 - 14/9/2024, 12:11:42 a.m.
+error: jwt must be provided - GET en /products?limit=4&numPage=1&filter=Category%201 - 14/9/2024, 12:11:42 a.m.
+error: userFound is not defined - GET en /products?limit=4&numPage=1&filter=Category%201 - 14/9/2024, 12:13:06 a.m.
+error: userFound is not defined - GET en /products?limit=4&numPage=1&filter=Category%201 - 14/9/2024, 12:14:11 a.m.
+error: if doesn't match else - 58:16 - GET en /products?limit=4&numPage=1&filter=Category%202 - 14/9/2024, 12:35:16 a.m.
+error: Parse error on line 102:
+...         {{#if h</main> <script sr
+---------------------^
+Expecting 'CLOSE_RAW_BLOCK', 'CLOSE', 'CLOSE_UNESCAPED', 'OPEN_SEXPR', 'CLOSE_SEXPR', 'ID', 'EQUALS', 'OPEN_BLOCK_PARAMS', 'STRING', 'NUMBER', 'BOOLEAN', 'UNDEFINED', 'NULL', 'DATA', 'SEP', got 'INVALID' - GET en /products?limit=4&numPage=1&filter=Category%202 - 14/9/2024, 12:37:04 a.m.
+error: Parse error on line 115:
+...oducts.js"></script>
+-----------------------^
+Expecting 'OPEN_INVERSE_CHAIN', 'INVERSE', 'OPEN_ENDBLOCK', got 'EOF' - GET en /products?limit=4&numPage=1&filter=Category%202 - 14/9/2024, 12:37:38 a.m.
+error: Missing helper: "eq" - GET en /users/edit/66542273e77080071ea862c7 - 15/9/2024, 8:51:57 p.m.
+error: #if requires exactly one argument - GET en /users/edit/66542273e77080071ea862c7 - 15/9/2024, 8:56:46 p.m.
+error: La actualización no se realizó - POST en /api/users/updateRole/66542273e77080071ea862c7 - 15/9/2024, 9:22:09 p.m.
+error: Error actualizando el usuario: Cannot access 'role' before initialization - POST en /api/users/updateRole/66542273e77080071ea862c7 - 15/9/2024, 9:27:56 p.m.
+error: Error actualizando el usuario: Cannot access 'role' before initialization - POST en /api/users/updateRole/6656754b3dfe313816bb2467 - 15/9/2024, 9:29:02 p.m.
+error: Error actualizando el usuario: Cannot access 'role' before initialization - POST en /api/users/updateRole/6656754b3dfe313816bb2467 - 15/9/2024, 9:30:21 p.m.
+error: Error actualizando el usuario: Cannot access 'role' before initialization - POST en /api/users/updateRole/6656754b3dfe313816bb2467 - 15/9/2024, 9:31:30 p.m.
+error: La actualización no se realizó - POST en /api/users/updateRole/665d0c3a94d84c6b7e1e2083 - 15/9/2024, 9:32:51 p.m.

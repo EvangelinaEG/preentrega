@@ -6,7 +6,7 @@ class UsersManagerMongo {
     }
 
     getAll = async ({limit = 10, numPage=1}) => {
-        // const users =  await this.userModel.find().lean()
+
         const users =  await this.userModel.paginate({}, {limit, page: numPage, sort: {price: -1}, lean: true })
         return users
     }
@@ -18,6 +18,22 @@ class UsersManagerMongo {
     create = async (newUser) => {
         const user = await this.userModel.create(newUser)
         return user
+    }
+
+    delete = async (id) => {
+      const user = await this.userModel.findByIdAndDelete(id);
+      return user;
+    }
+
+    deleteAll = async () => {
+      const twoDaysAgo = new Date();
+      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+  
+      const result = await this.userModel.deleteMany({
+          last_connection: { $lt: twoDaysAgo }
+      });
+  
+      return result;
     }
   
     getBy = async (id) => {
@@ -36,32 +52,16 @@ class UsersManagerMongo {
       );
     
     }
-    updateRole = async (user) => {
+    updateRole = async (user, role) => {
     
       return await this.userModel.updateOne(
         { _id: user._id }, 
-        { $set: { role: "premium" } } 
+        { $set: { role: role } } 
       );
     
     }
 
-    updateRole = async (user) => {
-      
-      const currentUser = await this.userModel.findOne({ _id: user._id });
-  
-      if (!currentUser) {
-        throw new Error("Usuario no encontrado");
-      }
     
-      const newRole = currentUser.role === "admin" ? "premium" : 
-                      currentUser.role === "premium" ? "admin" : 
-                      currentUser.role; 
-                      console.log(newRole)
-      return await this.userModel.updateOne(
-        { _id: user._id }, 
-        { $set: { role: newRole } }
-      );
-    };
   
   }
 

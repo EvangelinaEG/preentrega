@@ -1,19 +1,20 @@
 import { CustomError } from "../service/errors/customerErrors.js"
 import { EError } from "../service/errors/enum.js"
 import { generateProductError } from "../service/errors/info.js"
-import { productService } from "../service/index.js"
-
+import { productService, userService } from "../service/index.js"
+import jwt from 'jsonwebtoken';
 class ProductController{
     constructor(){
+        this.userService = userService
         this.productService = productService
     }
 
     getproducts = async (req, res, next) => {
         try {
             const { limit, numPage, order, filter } = req.query;
-    
+
             const products = await productService.getProducts({ limit, numPage, order, filter });
-     
+         
             return {
                 payload: products, 
                 page: numPage || 1,
@@ -30,21 +31,36 @@ class ProductController{
     
     
     products = async (req, res, next) => {
+      
         try {
-            const { docs, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await this.getproducts(req, res, next);
-    
+            req.query.limit = req.query.limit ?? 4; 
+            req.query.numPage = req.query.numPage ?? 1; 
+            req.query.order = req.query.order ?? 1; 
+            req.query.filter = req.query.filter ??  '';
+            const { payload, page, hasPrevPage, hasNextPage, prevPage, nextPage } = await this.getproducts(req, res, next);
+          
             const { limit, numPage, order, filter } = req.query;
+
+            const token = req.cookies.token;
+            //if (!token) return res.redirect("/login");
+            if(token){
+            const decoded = jwt.verify(token, process.env.PRIVATE_KEY);
+          
+            const userFound = await this.userService.getBy({ email: decoded.user.email });
+
+            }
             res.render('products', {
-                products: docs,
+                products: payload,
                 page: page,
                 hasNextPage: hasNextPage,
                 hasPrevPage: hasPrevPage, 
                 nextPage: nextPage,
                 prevPage: prevPage,
                 limit: limit === null || limit === "" || typeof limit === "undefined" ? 4 : limit,
-                contproducts: docs.length > 0,
+                contproducts: payload.length > 0,
                 order: order === null || typeof order === "undefined" ? -1 : order,
                 filter: filter === null || filter === "" || typeof filter === "undefined" ? null : filter,
+                user: typeof userFound === 'undefined' ? null: userFound
             });
         } catch (error) {
             console.log(error);

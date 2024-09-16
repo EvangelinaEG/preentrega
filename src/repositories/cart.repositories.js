@@ -7,7 +7,6 @@ class CartRepositories {
     async getCarts(){
         try {
             let res = await this.cartDao.getAll()
-            console.log(res)
             return res
         } catch (error) {
             return new Error(error)
@@ -17,16 +16,15 @@ class CartRepositories {
     async getCart(cid){
         try {
             const cart = await this.cartDao.get(cid)  
-            console.log(cart)
             return cart         
         } catch (error) {
             return new Error(error)
         }
     } 
 
-    async createCart(userEmail){
+    async createCart(){
         try {
-            return await this.cartDao.create(userEmail)            
+            return await this.cartDao.create()            
         } catch (error) {
             return new Error(error)
         }

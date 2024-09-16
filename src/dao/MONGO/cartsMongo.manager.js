@@ -13,11 +13,12 @@ class CartManagerMongo {
     }
     create = async () => {
         const cart = await this.model.create({products: []})
+        
         return cart._id 
     }
     add = async (cid, pid) => {
         const cart = await this.model.findOne({_id: cid})
-        console.log(pid)
+        
         // cart.products array -> {prduct: 'kajshfkhsfd', quantity: 5}
         const index = cart.products.findIndex(pro => pro.product.toString() === pid)
         
@@ -29,7 +30,7 @@ class CartManagerMongo {
         
         const resp = await cartsModel.findByIdAndUpdate({_id: cid}, cart) 
         return resp
-    }
+    } 
     delete = async (cid, pid) => {
         const cart = await this.model.findOne({_id: cid})
         // cart.products array -> {prduct: 'kajshfkhsfd', quantity: 5}

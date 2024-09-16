@@ -20,14 +20,15 @@ const {
 
 router.get('/',                 getUsers)
 router.post('/',                createUser)
-router.put('/premium/:uid',     updateRole)
+//router.put('/premium/:uid',     updateRole)
+router.post('/updateRole/:uid',     updateRole)
 router.get('/autorizacion',     autorizacion)
 router.get('/autenticacion',    autenticacion)
 router.get('/logout',           logout)
 router.get('/:uid',             getUser)
 router.post('/:uid/documents', uploader.single('myFile'), documents)
 router.put('/:uid',             updateUser)
-router.delete('/:uid',          deleteUser)
+router.delete('/:uid',          deleteUser) 
 
 
 
